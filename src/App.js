@@ -1,25 +1,33 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import QuestionType from './QuestionType';
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 
-const MyContainer = withStyles({
-  '@global': {
-    body: {
-      margin: 0,
-      backgroundColor: '#fafafa',
-    },
-  },
-  root: {
-    marginTop: '4rem',
-  },
-})(Container);
+// 'Extend' the default styles
+const useStyles = makeStyles(theme => ({
+  box: {
+    marginTop: theme.spacing(8),
+  }
+}));
 
 function App() {
+  const classes = useStyles();
+
+  const [clickOutside, setClickOutside] = useState({ clickOutside: false });
+
+  const outsideClick = event => {
+    event.preventDefault();
+    setClickOutside({ clickOutside: true });
+  };
+
+  const childIsActive = () => {
+    setClickOutside({ clickOutside: false });
+  };
+
   return (
-    <MyContainer component="main" maxWidth="md">
-      <QuestionType />
-    </MyContainer>
+    <Box component="main" className={classes.box} onClick={outsideClick}>
+      <QuestionType outside={ clickOutside } isActive={childIsActive} />
+    </Box>
   )
 }
 

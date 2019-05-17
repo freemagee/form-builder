@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -13,6 +14,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DuplicateIcon from '@material-ui/icons/AddToPhotos';
+import LockIcon from '@material-ui/icons/Lock';
 
 // 'Extend' the default styles
 const useStyles = makeStyles(theme => ({
@@ -28,7 +30,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
@@ -36,7 +37,6 @@ const useStyles = makeStyles(theme => ({
   paperActive: {
     boxShadow: theme.shadows[7],
     borderLeft: `3px solid ${theme.palette.primary.main}`,
-    marginTop: theme.spacing(8),
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(6),
     padding: theme.spacing(2),
     borderTop: `1px solid ${theme.palette.grey[300]}`,
   },
@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function QuestionType() {
+function QuestionType(props) {
   const classes = useStyles();
 
   const [state, setState] = React.useState({
@@ -82,16 +82,23 @@ function QuestionType() {
   };
 
   const handleFocus = event => {
-    event.preventDefault();
+    event.stopPropagation();
     setState({ ...state, active: true });
+    props.isActive();
   };
 
   const formClick = event => {
     event.stopPropagation();
   }
 
+  if (props.outside.clickOutside === true && state.active === true) {
+    console.log('I guess something was clicked');
+    // Currently uncommenting the below will trigger an infinite loop.
+    setState({ ...state, active: false });
+  }
+
   return (
-    <Container>
+    <Container maxWidth="md">
       <Paper
         className={(state.active === true) ? classes.paperActive : classes.paper}
         onClick={handleFocus}
@@ -125,6 +132,11 @@ function QuestionType() {
                 <DuplicateIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Sensitive answer">
+              <IconButton className={classes.button} aria-label="Sensitive answer">
+                <LockIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Delete">
               <IconButton className={classes.button} aria-label="Delete">
                 <DeleteIcon />
@@ -150,5 +162,9 @@ function QuestionType() {
     </Container>
   );
 }
+
+QuestionType.propTypes = {
+  outside: PropTypes.object.isRequired,
+};
 
 export default QuestionType;
