@@ -9,6 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import orange from '@material-ui/core/colors/orange';
 
+// New styles that extend the default theme
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {

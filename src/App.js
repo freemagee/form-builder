@@ -1,16 +1,25 @@
 import React from 'react';
-import UITesterDefault from './UITesterDefault';
-import UITester from './UITester';
-import UITesterThemed from './UITesterThemed';
+import { withStyles } from '@material-ui/core/styles';
+import QuestionType from './QuestionType';
 import Container from '@material-ui/core/Container';
+
+const MyContainer = withStyles({
+  '@global': {
+    body: {
+      margin: 0,
+      backgroundColor: '#fafafa',
+    },
+  },
+  root: {
+    marginTop: '4rem',
+  },
+})(Container);
 
 function App() {
   return (
-    <Container component="main" maxWidth="md">
-      <UITesterDefault />
-      <UITesterThemed />
-      <UITester />
-    </Container>
+    <MyContainer component="main" maxWidth="md">
+      <QuestionType />
+    </MyContainer>
   )
 }
 
