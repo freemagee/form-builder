@@ -6,7 +6,6 @@ import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
@@ -18,6 +17,9 @@ import LockIcon from '@material-ui/icons/Lock';
 
 // 'Extend' the default styles
 const useStyles = makeStyles(theme => ({
+  container: {
+    marginBottom: theme.spacing(4),
+  },
   title: {
     '& .MuiFormLabel-root': {
       fontSize: theme.typography.pxToRem(24),
@@ -30,6 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
+    borderLeft: `3px solid transparent`,
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
@@ -37,9 +40,6 @@ const useStyles = makeStyles(theme => ({
   paperActive: {
     boxShadow: theme.shadows[7],
     borderLeft: `3px solid ${theme.palette.primary.main}`,
-    paddingTop: theme.spacing(4),
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -92,15 +92,14 @@ function QuestionType(props) {
   }
 
   if (props.outside.clickOutside === true && state.active === true) {
-    console.log('I guess something was clicked');
-    // Currently uncommenting the below will trigger an infinite loop.
+    //console.log('I guess the outside was clicked');
     setState({ ...state, active: false });
   }
 
   return (
-    <Container maxWidth="md">
+    <Container className={classes.container} maxWidth="md">
       <Paper
-        className={(state.active === true) ? classes.paperActive : classes.paper}
+        className={(state.active === true) ? [classes.paper, classes.paperActive].join(' ') : classes.paper}
         onClick={handleFocus}
       >
         <form className={classes.form} onClick={formClick} noValidate>
@@ -165,6 +164,7 @@ function QuestionType(props) {
 
 QuestionType.propTypes = {
   outside: PropTypes.object.isRequired,
+  isActive: PropTypes.func.isRequired,
 };
 
 export default QuestionType;
