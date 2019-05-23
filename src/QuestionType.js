@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -17,9 +16,6 @@ import LockIcon from '@material-ui/icons/Lock';
 
 // 'Extend' the default styles
 const useStyles = makeStyles(theme => ({
-  container: {
-    marginBottom: theme.spacing(4),
-  },
   title: {
     '& .MuiFormLabel-root': {
       fontSize: theme.typography.pxToRem(24),
@@ -32,10 +28,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    borderLeft: `3px solid transparent`,
+    marginTop: theme.spacing(4),
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
+    borderLeft: `3px solid transparent`,
   },
   paperActive: {
     boxShadow: theme.shadows[7],
@@ -97,68 +94,66 @@ function QuestionType(props) {
   }
 
   return (
-    <Container className={classes.container} maxWidth="md">
-      <Paper
-        className={(state.active === true) ? [classes.paper, classes.paperActive].join(' ') : classes.paper}
-        onClick={handleFocus}
-      >
-        <form className={classes.form} onClick={formClick} noValidate>
-          <TextField
-            id="title"
-            classes={{ root: classes.title }}
-            label="Title"
-            required
-            fullWidth
-            autoFocus
+    <Paper
+      className={(state.active === true) ? [classes.paper, classes.paperActive].join(' ') : classes.paper}
+      onClick={handleFocus}
+    >
+      <form className={classes.form} onClick={formClick} noValidate>
+        <TextField
+          id="title"
+          classes={{ root: classes.title }}
+          label="Title"
+          required
+          fullWidth
+          autoFocus
+        />
+        <TextField
+          id="description"
+          label="Description"
+          margin="normal"
+          fullWidth
+        />
+        <Input
+          value="Short answer text"
+          className={classes.input}
+          disabled
+          inputProps={{
+            'aria-label': 'Description',
+          }}
+        />
+        <Box className={classes.footer}>
+          <Tooltip title="Duplicate">
+            <IconButton className={classes.button} aria-label="Duplicate">
+              <DuplicateIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Sensitive answer">
+            <IconButton className={classes.button} aria-label="Sensitive answer">
+              <LockIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton className={classes.button} aria-label="Delete">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+          <Divider className={classes.vertDivider} />
+          <FormControlLabel
+            value="required"
+            control={
+              <Switch
+                color="primary"
+                checked={state.required}
+                onChange={handleChange('required')}
+                value="required"
+              />
+            }
+            label="Required"
+            labelPlacement="start"
           />
-          <TextField
-            id="description"
-            label="Description"
-            margin="normal"
-            fullWidth
-          />
-          <Input
-            value="Short answer text"
-            className={classes.input}
-            disabled
-            inputProps={{
-              'aria-label': 'Description',
-            }}
-          />
-          <Box className={classes.footer}>
-            <Tooltip title="Duplicate">
-              <IconButton className={classes.button} aria-label="Duplicate">
-                <DuplicateIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Sensitive answer">
-              <IconButton className={classes.button} aria-label="Sensitive answer">
-                <LockIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-              <IconButton className={classes.button} aria-label="Delete">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <Divider className={classes.vertDivider} />
-            <FormControlLabel
-              value="required"
-              control={
-                <Switch
-                  color="primary"
-                  checked={state.required}
-                  onChange={handleChange('required')}
-                  value="required"
-                />
-              }
-              label="Required"
-              labelPlacement="start"
-            />
-          </Box>
-        </form>
-      </Paper>
-    </Container>
+        </Box>
+      </form>
+    </Paper>
   );
 }
 
