@@ -8,14 +8,12 @@ import Container from "@material-ui/core/Container";
 // 'Extend' the default styles
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: theme.spacing(8)
+    paddingTop: theme.spacing(8)
   }
 }));
 
 function App() {
   const classes = useStyles();
-
-  const [clickOutside, setClickOutside] = useState({ clickOutside: false });
 
   const [questionList, setQuestionList] = useState({
     questions: [
@@ -29,11 +27,23 @@ function App() {
 
   const outsideClick = event => {
     event.preventDefault();
-    setClickOutside({ clickOutside: true });
+    const questions = questionList.questions;
+
+    questions.forEach(question => question.active = false);
+    setQuestionList({ questions: questions });
   };
 
-  const childIsActive = () => {
-    setClickOutside({ clickOutside: false });
+  const questionIsActive = componentId => {
+    const questions = questionList.questions;
+    const index = findComponentId(questions, componentId);
+
+    if (index !== -1) {
+      // Set all questions to active: false
+      questions.forEach(question => question.active = false);
+      // Set the clicked question to active: true
+      questions[index].active = true;
+      setQuestionList({ questions: questions });
+    }
   };
 
   const addNewQuestion = () => {
@@ -51,11 +61,22 @@ function App() {
     return (
       <QuestionType
         key={question.uuid}
-        outside={clickOutside}
-        isActive={childIsActive}
+        uuid={question.uuid}
+        hasFocus={question.active}
+        wasFocused={questionIsActive}
       />
     );
   });
+
+  const findComponentId = (questions, id) => {
+    const index = questions.findIndex((question) => question.uuid === id);
+
+    if (index >= 0) {
+      return index;
+    }
+
+    return -1;
+  };
 
   return (
     <Container

@@ -70,7 +70,6 @@ function QuestionType(props) {
   const classes = useStyles();
 
   const [state, setState] = React.useState({
-    active: false,
     required: false,
   });
 
@@ -80,25 +79,15 @@ function QuestionType(props) {
 
   const handleFocus = event => {
     event.stopPropagation();
-    setState({ ...state, active: true });
-    props.isActive();
+    props.wasFocused(props.uuid);
   };
-
-  const formClick = event => {
-    event.stopPropagation();
-  }
-
-  if (props.outside.clickOutside === true && state.active === true) {
-    //console.log('I guess the outside was clicked');
-    setState({ ...state, active: false });
-  }
 
   return (
     <Paper
-      className={(state.active === true) ? [classes.paper, classes.paperActive].join(' ') : classes.paper}
+      className={(props.hasFocus === true) ? [classes.paper, classes.paperActive].join(' ') : classes.paper}
       onClick={handleFocus}
     >
-      <form className={classes.form} onClick={formClick} noValidate>
+      <form className={classes.form} noValidate>
         <TextField
           id="title"
           classes={{ root: classes.title }}
@@ -158,8 +147,9 @@ function QuestionType(props) {
 }
 
 QuestionType.propTypes = {
-  outside: PropTypes.object.isRequired,
-  isActive: PropTypes.func.isRequired,
+  uuid: PropTypes.string.isRequired,
+  hasFocus: PropTypes.bool.isRequired,
+  wasFocused: PropTypes.func.isRequired,
 };
 
 export default QuestionType;
