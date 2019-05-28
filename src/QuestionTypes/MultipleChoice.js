@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+
 import Paper from "@material-ui/core/Paper";
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -16,10 +17,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DuplicateIcon from "@material-ui/icons/AddToPhotos";
 import LockIcon from "@material-ui/icons/Lock";
 import Radio from "@material-ui/core/Radio";
-import theme from "../Theme.js";
 
-// 'Extend' the default styles
-const useStyles = makeStyles(theme => ({
+import myTheme from "../Theme.js";
+
+const theme = createMuiTheme(myTheme);
+
+const componentStyleOverrides = {
   title: {
     "& .MuiFormLabel-root": {
       fontSize: theme.typography.pxToRem(24)
@@ -85,13 +88,15 @@ const useStyles = makeStyles(theme => ({
     width: 1,
     height: 48
   }
-}));
+};
+
+const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
   const classes = useStyles();
 
   const [state, setState] = React.useState({
-    required: false
+    required: false,
   });
 
   const handleChange = name => event => {
@@ -100,7 +105,7 @@ function MultipleChoice(props) {
 
   const handleFocus = event => {
     event.stopPropagation();
-    // props.wasFocused(props.uuid);
+    props.wasFocused(props.uuid);
   };
 
   return (
