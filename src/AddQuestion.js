@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 function AddQuestion(props) {
   const handleClick = event => {
+    event.stopPropagation();
     props.add(props.type);
   };
 

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { uuid } from "./Utils/Math.uuid";
+
 import AddQuestion from "./AddQuestion";
 import ShortAnswer from "./QuestionTypes/ShortAnswer";
-import MultipleChoice from "./QuestionTypes/MultipleChoice";
+import MultipleChoice from "./QuestionTypes/MultipleChoice/";
 import Container from "@material-ui/core/Container";
+
+import { uuid } from "./Utils/Math";
+import { cloneArray } from "./Utils/Array";
 
 // 'Extend' the default styles
 const useStyles = makeStyles(theme => ({
@@ -16,49 +19,47 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles();
 
-  const [questionList, setQuestionList] = useState({
-    questions: [
-      {
-        type: "ShortAnswer",
-        uuid: uuid(),
-        active: false
-      }
-    ]
-  });
+  const [questionList, setQuestionList] = useState([
+    {
+      type: "ShortAnswer",
+      uuid: uuid(),
+      active: false
+    }
+  ]);
 
   const outsideClick = event => {
     event.preventDefault();
-    const questions = questionList.questions;
+    const questionListClone = cloneArray(questionList);
 
-    questions.forEach(question => (question.active = false));
-    setQuestionList({ questions: questions });
+    questionListClone.forEach(question => (question.active = false));
+    setQuestionList(questionListClone);
   };
 
   const questionIsActive = componentId => {
-    const questions = questionList.questions;
-    const index = findComponentId(questions, componentId);
+    const questionListClone = cloneArray(questionList);
+    const index = findComponentId(questionListClone, componentId);
 
     if (index !== -1) {
       // Set all questions to active: false
-      questions.forEach(question => (question.active = false));
+      questionListClone.forEach(question => (question.active = false));
       // Set the clicked question to active: true
-      questions[index].active = true;
-      setQuestionList({ questions: questions });
+      questionListClone[index].active = true;
+      setQuestionList(questionListClone);
     }
   };
 
   const addNewQuestion = (type) => {
-    const questions = questionList.questions;
+    const questionListClone = cloneArray(questionList);
 
-    questions.push({
+    questionListClone.push({
       type: type,
       uuid: uuid(),
       active: false
     });
-    setQuestionList({ questions: questions });
+    setQuestionList(questionListClone);
   };
 
-  const questionTypeList = questionList.questions.map(question => {
+  const questionTypeList = questionList.map(question => {
     switch (question.type) {
       case "ShortAnswer":
         return (
@@ -83,8 +84,8 @@ function App() {
     }
   });
 
-  const findComponentId = (questions, id) => {
-    const index = questions.findIndex(question => question.uuid === id);
+  const findComponentId = (array, id) => {
+    const index = array.findIndex(item => item.uuid === id);
 
     if (index >= 0) {
       return index;

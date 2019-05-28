@@ -9,16 +9,17 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DuplicateIcon from "@material-ui/icons/AddToPhotos";
 import LockIcon from "@material-ui/icons/Lock";
-import Radio from "@material-ui/core/Radio";
 
-import myTheme from "../Theme.js";
+import Option from "./Option";
+import AddOther from "./AddOther";
+import { uuid } from "../../Utils/Math";
+import { cloneArray } from "../../Utils/Array";
+import myTheme from "../../Theme.js";
 
 const theme = createMuiTheme(myTheme);
 
@@ -53,22 +54,6 @@ const componentStyleOverrides = {
       fontSize: theme.typography.pxToRem(14)
     }
   },
-  optionContainer: {
-    display: "flex",
-    marginTop: theme.spacing(2)
-  },
-  optionName: {
-    flex: "1 0 auto",
-    "& .MuiInputBase-root": {
-      marginTop: "10px"
-    },
-    "& .MuiInput-underline:before": {
-      borderBottomColor: theme.palette.grey[300]
-    },
-    "& .MuiInputBase-input": {
-      paddingTop: 0
-    }
-  },
   textInline: {
     alignSelf: "center",
     margin: "0 10px"
@@ -92,14 +77,42 @@ const componentStyleOverrides = {
 
 const useStyles = makeStyles(componentStyleOverrides);
 
+function findIndex(array, key, needle) {
+  const index = array.findIndex(item => item[key] === needle);
+
+  if (index >= 0) {
+    return index;
+  }
+
+  return -1;
+}
+
 function MultipleChoice(props) {
   const classes = useStyles();
 
+  const setOptionValue = (value, uuid) => {
+    const count = optionsList.optionCount;
+    const options = cloneArray(optionsList.options);
+    const index = findIndex(options, "uuid", uuid);
+    options[index].value = value;
+    setOptionsList({ optionCount: count, options: options });
+  };
+
   const [state, setState] = React.useState({
-    required: false,
+    required: false
   });
 
-  const handleChange = name => event => {
+  const [optionsList, setOptionsList] = React.useState({
+    optionCount: 1,
+    options: [
+      {
+        value: "Option 1",
+        uuid: uuid()
+      }
+    ]
+  });
+
+  const handleRequired = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
 
@@ -107,6 +120,38 @@ function MultipleChoice(props) {
     event.stopPropagation();
     props.wasFocused(props.uuid);
   };
+
+  const handleAddNewOption = event => {
+    const options = cloneArray(optionsList.options);
+    const newCount = optionsList.optionCount + 1;
+
+    options.push({
+      value: `Option ${newCount}`,
+      uuid: uuid()
+    });
+    setOptionsList({ optionCount: newCount, options: options });
+  };
+
+  // const handleAddOther = event => {
+  //   const options = optionsList.options;
+
+  //   options.push({
+  //     value: "Other...",
+  //     uuid: uuid()
+  //   });
+  //   setOptionsList({ options: options });
+  // };
+
+  const renderOptionsList = optionsList.options.map(option => {
+    return (
+      <Option
+        value={option.value}
+        key={option.uuid}
+        uuid={option.uuid}
+        cb={setOptionValue}
+      />
+    );
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -133,36 +178,8 @@ function MultipleChoice(props) {
             margin="normal"
             fullWidth
           />
-          <Box className={classes.optionContainer}>
-            <Radio
-              value="d"
-              color="default"
-              name="radio-button-demo"
-              aria-label="D"
-            />
-            <TextField
-              id="option1"
-              classes={{ root: classes.optionName }}
-              placeholder="Option 1"
-            />
-          </Box>
-          <Box className={classes.optionContainer}>
-            <Radio
-              value="d"
-              color="default"
-              name="radio-button-demo"
-              aria-label="D"
-            />
-            <TextField
-              id="addOption"
-              classes={{ root: classes.optionAdd }}
-              placeholder="Add option"
-            />
-            <Typography className={classes.textInline}>or</Typography>
-            <Button color="primary" className={classes.button}>
-              Add 'other'
-            </Button>
-          </Box>
+          {renderOptionsList}
+          <AddOther cb={handleAddNewOption} />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
               <IconButton className={classes.button} aria-label="Duplicate">
@@ -189,7 +206,7 @@ function MultipleChoice(props) {
                 <Switch
                   color="primary"
                   checked={state.required}
-                  onChange={handleChange("required")}
+                  onChange={handleRequired("required")}
                   value="required"
                 />
               }
