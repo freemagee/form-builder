@@ -4,13 +4,13 @@ import AddIcon from '@material-ui/icons/Add';
 
 function AddQuestion(props) {
   const handleClick = event => {
-    props.add();
+    props.add(props.type);
   };
 
   return (
     <Fab variant="extended" aria-label="Add" onClick={handleClick}>
       <AddIcon />
-      Add question
+      Add '{props.type}' question
     </Fab>
   );
 }
