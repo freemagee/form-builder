@@ -1,8 +1,9 @@
+// React & Material UI
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-
+// Material UI components
 import Paper from "@material-ui/core/Paper";
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -15,11 +16,10 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DuplicateIcon from "@material-ui/icons/AddToPhotos";
 import LockIcon from "@material-ui/icons/Lock";
-
+// App custom
 import myTheme from "../Theme.js";
 
 const theme = createMuiTheme(myTheme);
-
 // 'Extend' the default styles
 const componentStyleOverrides = {
   title: {
@@ -71,26 +71,28 @@ const componentStyleOverrides = {
     height: 48
   }
 };
-
 const useStyles = makeStyles(componentStyleOverrides);
 
 function ShortAnswer(props) {
   const { uuid, hasFocus, wasFocused, remove } = props;
   const classes = useStyles();
-
   const [state, setState] = React.useState({
-    required: false
+    required: false,
+    sensitive: false
   });
-
   const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+    if (name !== "required") {
+      const current = state[name];
 
+      setState({ ...state, [name]: !current });
+    } else {
+      setState({ ...state, [name]: event.target.checked });
+    }
+  };
   const handleFocus = event => {
     event.stopPropagation();
     wasFocused(uuid);
   };
-
   const handleRemoveQuestion = event => {
     event.stopPropagation();
     remove(uuid);
@@ -139,8 +141,14 @@ function ShortAnswer(props) {
               <IconButton
                 className={classes.button}
                 aria-label="Sensitive answer"
+                onClick={handleChange("sensitive")}
               >
-                <LockIcon />
+                {state.sensitive &&
+                  <LockIcon color="secondary" />
+                }
+                {!state.sensitive &&
+                  <LockIcon />
+                }
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">

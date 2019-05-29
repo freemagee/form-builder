@@ -84,6 +84,7 @@ function MultipleChoice(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     required: false,
+    sensitive: false,
     hasOther: false
   });
   const [options, setOptions] = React.useState([
@@ -93,8 +94,14 @@ function MultipleChoice(props) {
     }
   ]);
   const [count, setOptionsCount] = React.useState(1);
-  const handleRequired = name => event => {
-    setState({ ...state, [name]: event.target.checked });
+  const handleChange = name => event => {
+    if (name !== "required") {
+      const current = state[name];
+
+      setState({ ...state, [name]: !current });
+    } else {
+      setState({ ...state, [name]: event.target.checked });
+    }
   };
   const handleFocus = event => {
     event.stopPropagation();
@@ -193,17 +200,14 @@ function MultipleChoice(props) {
               <IconButton
                 className={classes.button}
                 aria-label="Sensitive answer"
+                onClick={handleChange("sensitive")}
               >
-                <LockIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-              <IconButton
-                className={classes.button}
-                aria-label="Delete"
-                onClick={handleRemoveQuestion}
-              >
-                <DeleteIcon />
+                {state.sensitive &&
+                  <LockIcon color="secondary" />
+                }
+                {!state.sensitive &&
+                  <LockIcon />
+                }
               </IconButton>
             </Tooltip>
             <Divider className={classes.vertDivider} />
@@ -213,7 +217,7 @@ function MultipleChoice(props) {
                 <Switch
                   color="primary"
                   checked={state.required}
-                  onChange={handleRequired("required")}
+                  onChange={handleChange("required")}
                   value="required"
                 />
               }
