@@ -119,19 +119,14 @@ function MultipleChoice(props) {
     setState({ ...state, hasOther: true });
   };
   const setOptionValue = (value, uuid) => {
-    const index = options.findIndex(option => option["uuid"] === uuid);
-    setOptionValue([
-      ...options,
-      options[index]["value"] => value
-    ]);
-    // const optionsClone = cloneArray(options);
-    // const index = optionsClone.findIndex(option => option["uuid"] === uuid);
-    // const currentValue = optionsClone[index].value;
+    const optionsClone = cloneArray(options);
+    const index = optionsClone.findIndex(option => option["uuid"] === uuid);
+    const currentValue = optionsClone[index].value;
 
-    // if (currentValue !== value) {
-    //   optionsClone[index].value = value;
-    //   setOptions(optionsClone);
-    // }
+    if (currentValue !== value) {
+      optionsClone[index].value = value;
+      setOptions(optionsClone);
+    }
   };
   const renderOptionsList = options.map(option => {
     return (
