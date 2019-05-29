@@ -7,7 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-// import { useInput } from "../../Hooks/textInputHook";
 import myTheme from "../../Theme.js";
 
 const theme = createMuiTheme(myTheme);
@@ -32,34 +31,31 @@ const componentStyleOverrides = {
   textInline: {
     alignSelf: "center",
     margin: "0 10px"
-  },
+  }
 };
 
 const useStyles = makeStyles(componentStyleOverrides);
 
 function AddOther(props) {
-  const [newOption, other] = [props.new, props.other];
+  const [newOption, other, hasOther] = [props.new, props.other, props.hasOther];
   const classes = useStyles();
 
   return (
     <Box className={classes.optionContainer}>
-      <Radio
-        color="default"
-        disabled
-      />
+      <Radio color="default" disabled />
       <TextField
         classes={{ root: classes.optionAdd }}
         placeholder="Add option"
         onClick={newOption}
       />
-      <Typography className={classes.textInline}>or</Typography>
-      <Button
-        color="primary"
-        className={classes.button}
-        onClick={other}
-      >
-        Add 'other'
-      </Button>
+      {hasOther === false && (
+        <Typography className={classes.textInline}>or</Typography>
+      )}
+      {hasOther === false && (
+        <Button color="primary" className={classes.button} onClick={other}>
+          Add 'other'
+        </Button>
+      )}
     </Box>
   );
 }

@@ -84,14 +84,12 @@ function MultipleChoice(props) {
     required: false,
     hasOther: false,
   });
-  const [optionsList, setOptionsList] = React.useState({
-    options: [
-      {
-        value: "Option 1",
-        uuid: uuid()
-      }
-    ]
-  });
+  const [options, setOptions] = React.useState([
+    {
+      value: "Option 1",
+      uuid: uuid()
+    }
+  ]);
   const [count, setOptionsCount] = React.useState(1);
   const handleRequired = name => event => {
     setState({ ...state, [name]: event.target.checked });
@@ -100,37 +98,42 @@ function MultipleChoice(props) {
     event.stopPropagation();
     props.wasFocused(props.uuid);
   };
-  const handleAddNewOption = event => {
-    const options = cloneArray(optionsList.options);
-    const newCount = count + 1;
-
-    options.push({
-      value: `Option ${newCount}`,
-      uuid: uuid()
-    });
-    setOptionsList({ options: options });
-    setOptionsCount(newCount);
+  const handleAddNewOption = () => {
+    setOptions([
+      ...options,
+      {
+        value: `Option ${count + 1}`,
+        uuid: uuid()
+      }
+    ]);
+    setOptionsCount(count => count + 1);
   };
-  const handleAddOther = event => {
-    const options = cloneArray(optionsList.options);
-
-    options.push({
-      value: "Other...",
-      uuid: uuid()
-    });
-    setOptionsList({ options: options });
+  const handleAddOther = () => {
+    setOptions([
+      ...options,
+      {
+        value: "Other...",
+        uuid: uuid()
+      }
+    ]);
+    setState({ ...state, hasOther: true });
   };
   const setOptionValue = (value, uuid) => {
-    const options = cloneArray(optionsList.options);
     const index = options.findIndex(option => option["uuid"] === uuid);
-    const currentValue = options[index].value;
+    setOptionValue([
+      ...options,
+      options[index]["value"] => value
+    ]);
+    // const optionsClone = cloneArray(options);
+    // const index = optionsClone.findIndex(option => option["uuid"] === uuid);
+    // const currentValue = optionsClone[index].value;
 
-    if (currentValue !== value) {
-      options[index].value = value;
-      setOptionsList({ options: options });
-    }
+    // if (currentValue !== value) {
+    //   optionsClone[index].value = value;
+    //   setOptions(optionsClone);
+    // }
   };
-  const renderOptionsList = optionsList.options.map(option => {
+  const renderOptionsList = options.map(option => {
     return (
       <Option
         value={option.value}
@@ -167,7 +170,7 @@ function MultipleChoice(props) {
             fullWidth
           />
           {renderOptionsList}
-          <AddOther new={handleAddNewOption} other={handleAddOther} />
+          <AddOther new={handleAddNewOption} other={handleAddOther} hasOther={state.hasOther} />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
               <IconButton className={classes.button} aria-label="Duplicate">
