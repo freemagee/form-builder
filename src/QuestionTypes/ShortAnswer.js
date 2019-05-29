@@ -75,6 +75,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function ShortAnswer(props) {
+  const { uuid, hasFocus, wasFocused, remove } = props;
   const classes = useStyles();
 
   const [state, setState] = React.useState({
@@ -87,14 +88,19 @@ function ShortAnswer(props) {
 
   const handleFocus = event => {
     event.stopPropagation();
-    props.wasFocused(props.uuid);
+    wasFocused(uuid);
+  };
+
+  const handleRemoveQuestion = event => {
+    event.stopPropagation();
+    remove(uuid);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Paper
         className={
-          props.hasFocus === true
+          hasFocus === true
             ? [classes.paper, classes.paperActive].join(" ")
             : classes.paper
         }
@@ -138,7 +144,11 @@ function ShortAnswer(props) {
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton className={classes.button} aria-label="Delete">
+              <IconButton
+                className={classes.button}
+                aria-label="Delete"
+                onClick={handleRemoveQuestion}
+              >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -166,7 +176,8 @@ function ShortAnswer(props) {
 ShortAnswer.propTypes = {
   uuid: PropTypes.string.isRequired,
   hasFocus: PropTypes.bool.isRequired,
-  wasFocused: PropTypes.func.isRequired
+  wasFocused: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired
 };
 
 export default ShortAnswer;

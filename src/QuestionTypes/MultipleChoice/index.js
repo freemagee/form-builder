@@ -19,7 +19,7 @@ import LockIcon from "@material-ui/icons/Lock";
 import Option from "./Option";
 import AddOther from "./AddOther";
 import Other from "./Other";
-import { uuid } from "../../Utils/Math";
+import { uuid as genUuid } from "../../Utils/Math";
 import { cloneArray } from "../../Utils/Array";
 import myTheme from "../../Theme.js";
 
@@ -80,6 +80,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
+  const { uuid, hasFocus, wasFocused, remove } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
     required: false,
@@ -88,7 +89,7 @@ function MultipleChoice(props) {
   const [options, setOptions] = React.useState([
     {
       value: "Option 1",
-      uuid: uuid()
+      uuid: genUuid()
     }
   ]);
   const [count, setOptionsCount] = React.useState(1);
@@ -97,14 +98,14 @@ function MultipleChoice(props) {
   };
   const handleFocus = event => {
     event.stopPropagation();
-    props.wasFocused(props.uuid);
+    wasFocused(uuid);
   };
   const handleAddNewOption = () => {
     setOptions([
       ...options,
       {
         value: `Option ${count + 1}`,
-        uuid: uuid()
+        uuid: genUuid()
       }
     ]);
     setOptionsCount(count => count + 1);
@@ -132,6 +133,10 @@ function MultipleChoice(props) {
       setOptions(optionsClone);
     }
   };
+  const handleRemoveQuestion = event => {
+    event.stopPropagation();
+    remove(uuid);
+  };
   const renderOptionsList = options.map(option => {
     return (
       <Option
@@ -148,7 +153,7 @@ function MultipleChoice(props) {
     <ThemeProvider theme={theme}>
       <Paper
         className={
-          props.hasFocus === true
+          hasFocus === true
             ? [classes.paper, classes.paperActive].join(" ")
             : classes.paper
         }
@@ -170,9 +175,9 @@ function MultipleChoice(props) {
             fullWidth
           />
           {renderOptionsList}
-          {state.hasOther &&
+          {state.hasOther && (
             <Other remove={() => setState({ ...state, hasOther: false })} />
-          }
+          )}
           <AddOther
             new={handleAddNewOption}
             other={handleAddOther}
@@ -193,7 +198,11 @@ function MultipleChoice(props) {
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton className={classes.button} aria-label="Delete">
+              <IconButton
+                className={classes.button}
+                aria-label="Delete"
+                onClick={handleRemoveQuestion}
+              >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>

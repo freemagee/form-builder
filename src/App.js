@@ -50,16 +50,36 @@ function App() {
     }
   };
 
-  const addNewQuestion = type => {
-    const questionListClone = cloneArray(questionList);
-
-    questionListClone.push({
-      type: type,
-      uuid: uuid(),
-      active: false
-    });
-    setQuestionList(questionListClone);
+  const handleNewQuestion = type => {
+    setQuestionList([
+      ...questionList,
+      {
+        type: type,
+        uuid: uuid(),
+        active: false
+      }
+    ]);
   };
+
+  // Remove function is not working 😭
+  const handleRemoveQuestion = componentId => {
+    const questionListClone = cloneArray(questionList);
+    const index = questionListClone.findIndex(
+      question => question.uuid === componentId
+    );
+
+    if (index !== -1) {
+      questionListClone.splice(index, 1);
+      setQuestionList(questionListClone);
+    }
+  };
+
+  // const handleRemoveQuestion = (event, componentId) => {
+  //   const questionListClone = cloneArray(questionList);
+
+  //   questionListClone.pop();
+  //   setQuestionList(questionListClone);
+  // };
 
   const questionTypeList = questionList.map(question => {
     switch (question.type) {
@@ -70,6 +90,7 @@ function App() {
             uuid={question.uuid}
             hasFocus={question.active}
             wasFocused={questionIsActive}
+            remove={handleRemoveQuestion}
           />
         );
       case "MultipleChoice":
@@ -79,10 +100,11 @@ function App() {
             uuid={question.uuid}
             hasFocus={question.active}
             wasFocused={questionIsActive}
+            remove={handleRemoveQuestion}
           />
         );
       default:
-        return <p>No question type found</p>;
+        return <p>Error! No matching question type found</p>;
     }
   });
 
@@ -101,8 +123,8 @@ function App() {
       maxWidth="md"
       onClick={outsideClick}
     >
-      <AddQuestion type="ShortAnswer" add={addNewQuestion} />
-      <AddQuestion type="MultipleChoice" add={addNewQuestion} />
+      <AddQuestion type="ShortAnswer" add={handleNewQuestion} />
+      <AddQuestion type="MultipleChoice" add={handleNewQuestion} />
       {questionTypeList}
     </Container>
   );
