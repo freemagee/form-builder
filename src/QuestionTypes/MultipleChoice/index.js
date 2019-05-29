@@ -77,23 +77,14 @@ const componentStyleOverrides = {
 
 const useStyles = makeStyles(componentStyleOverrides);
 
-function findIndex(array, key, needle) {
-  const index = array.findIndex(item => item[key] === needle);
-
-  if (index >= 0) {
-    return index;
-  }
-
-  return -1;
-}
-
 function MultipleChoice(props) {
   const classes = useStyles();
 
   const setOptionValue = (value, uuid) => {
     const count = optionsList.optionCount;
     const options = cloneArray(optionsList.options);
-    const index = findIndex(options, "uuid", uuid);
+    const index = options.findIndex(option => option["uuid"] === uuid);
+
     options[index].value = value;
     setOptionsList({ optionCount: count, options: options });
   };
