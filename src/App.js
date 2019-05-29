@@ -37,7 +37,7 @@ function App() {
 
   const questionIsActive = componentId => {
     const questionListClone = cloneArray(questionList);
-    const index = findComponentId(questionListClone, componentId);
+    const index = questionListClone.findIndex(question => question.uuid === componentId);
 
     if (index !== -1) {
       // Set all questions to active: false
@@ -83,16 +83,6 @@ function App() {
         return <p>No question type found</p>;
     }
   });
-
-  const findComponentId = (array, id) => {
-    const index = array.findIndex(item => item.uuid === id);
-
-    if (index >= 0) {
-      return index;
-    }
-
-    return -1;
-  };
 
   return (
     <Container
