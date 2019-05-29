@@ -18,6 +18,7 @@ import LockIcon from "@material-ui/icons/Lock";
 // App custom
 import Option from "./Option";
 import AddOther from "./AddOther";
+import Other from "./Other";
 import { uuid } from "../../Utils/Math";
 import { cloneArray } from "../../Utils/Array";
 import myTheme from "../../Theme.js";
@@ -109,13 +110,6 @@ function MultipleChoice(props) {
     setOptionsCount(count => count + 1);
   };
   const handleAddOther = () => {
-    setOptions([
-      ...options,
-      {
-        value: "Other...",
-        uuid: uuid()
-      }
-    ]);
     setState({ ...state, hasOther: true });
   };
   const handleRemoveOption = uuid => {
@@ -176,6 +170,9 @@ function MultipleChoice(props) {
             fullWidth
           />
           {renderOptionsList}
+          {state.hasOther &&
+            <Other remove={() => setState({ ...state, hasOther: false })} />
+          }
           <AddOther
             new={handleAddNewOption}
             other={handleAddOther}
