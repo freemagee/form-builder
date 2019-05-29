@@ -5,6 +5,8 @@ import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 // App custom
 import myTheme from "../../Theme.js";
 
@@ -25,16 +27,16 @@ const componentStyleOverrides = {
     "& .MuiInputBase-input": {
       paddingTop: 0
     }
-  }
+  },
+  button: {
+    "&:hover": {backgroundColor: "transparent"}
+  },
 };
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Option(props) {
-  const [value, uuid, cb] = [props.value, props.uuid, props.cb];
+  const [value, uuid, set, remove] = [props.value, props.uuid, props.set, props.remove];
   const classes = useStyles();
-  const setOptionValue = event => {
-    cb(event.target.value, uuid);
-  };
 
   return (
     <Box className={classes.optionContainer}>
@@ -43,8 +45,15 @@ function Option(props) {
         value={value}
         classes={{ root: classes.optionName }}
         placeholder="Option 1"
-        onChange={setOptionValue}
+        onChange={(event) => set(event.target.value, uuid)}
       />
+      <IconButton
+        className={classes.button}
+        aria-label="Remove option"
+        onClick={() => remove(uuid)}
+      >
+        <CloseIcon />
+      </IconButton>
     </Box>
   );
 }

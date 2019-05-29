@@ -82,7 +82,7 @@ function MultipleChoice(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     required: false,
-    hasOther: false,
+    hasOther: false
   });
   const [options, setOptions] = React.useState([
     {
@@ -118,12 +118,22 @@ function MultipleChoice(props) {
     ]);
     setState({ ...state, hasOther: true });
   };
-  const setOptionValue = (value, uuid) => {
+  const handleRemoveOption = uuid => {
+    const optionsClone = cloneArray(options);
+    const index = optionsClone.findIndex(option => option["uuid"] === uuid);
+
+    if (count > 1 && index !== -1) {
+      optionsClone.splice(index, 1);
+      setOptions(optionsClone);
+      setOptionsCount(count => count - 1);
+    }
+  };
+  const handleSetOptionValue = (value, uuid) => {
     const optionsClone = cloneArray(options);
     const index = optionsClone.findIndex(option => option["uuid"] === uuid);
     const currentValue = optionsClone[index].value;
 
-    if (currentValue !== value) {
+    if (currentValue !== value && index !== -1) {
       optionsClone[index].value = value;
       setOptions(optionsClone);
     }
@@ -134,7 +144,8 @@ function MultipleChoice(props) {
         value={option.value}
         key={option.uuid}
         uuid={option.uuid}
-        cb={setOptionValue}
+        set={handleSetOptionValue}
+        remove={handleRemoveOption}
       />
     );
   });
@@ -165,7 +176,11 @@ function MultipleChoice(props) {
             fullWidth
           />
           {renderOptionsList}
-          <AddOther new={handleAddNewOption} other={handleAddOther} hasOther={state.hasOther} />
+          <AddOther
+            new={handleAddNewOption}
+            other={handleAddOther}
+            hasOther={state.hasOther}
+          />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
               <IconButton className={classes.button} aria-label="Duplicate">
