@@ -80,13 +80,11 @@ const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
   const classes = useStyles();
-
   const [state, setState] = React.useState({
-    required: false
+    required: false,
+    hasOther: false,
   });
-
   const [optionsList, setOptionsList] = React.useState({
-    optionCount: 1,
     options: [
       {
         value: "Option 1",
@@ -94,50 +92,44 @@ function MultipleChoice(props) {
       }
     ]
   });
-
+  const [count, setOptionsCount] = React.useState(1);
   const handleRequired = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
-
   const handleFocus = event => {
     event.stopPropagation();
     props.wasFocused(props.uuid);
   };
-
   const handleAddNewOption = event => {
     const options = cloneArray(optionsList.options);
-    const newCount = optionsList.optionCount + 1;
+    const newCount = count + 1;
 
     options.push({
       value: `Option ${newCount}`,
       uuid: uuid()
     });
-    setOptionsList({ optionCount: newCount, options: options });
+    setOptionsList({ options: options });
+    setOptionsCount(newCount);
   };
-
   const handleAddOther = event => {
-    const count = optionsList.optionCount;
     const options = cloneArray(optionsList.options);
 
     options.push({
       value: "Other...",
       uuid: uuid()
     });
-    setOptionsList({ optionCount: count, options: options });
+    setOptionsList({ options: options });
   };
-
   const setOptionValue = (value, uuid) => {
-    const count = optionsList.optionCount;
     const options = cloneArray(optionsList.options);
     const index = options.findIndex(option => option["uuid"] === uuid);
     const currentValue = options[index].value;
 
     if (currentValue !== value) {
       options[index].value = value;
-      setOptionsList({ optionCount: count, options: options });
+      setOptionsList({ options: options });
     }
   };
-
   const renderOptionsList = optionsList.options.map(option => {
     return (
       <Option
