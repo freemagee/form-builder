@@ -6,7 +6,7 @@ import ShortAnswer from "./QuestionTypes/ShortAnswer";
 import MultipleChoice from "./QuestionTypes/MultipleChoice/";
 import Container from "@material-ui/core/Container";
 
-import { uuid } from "./Utils/Math";
+import { uuid as genUuid } from "./Utils/Math";
 import { cloneArray } from "./Utils/Array";
 
 // 'Extend' the default styles
@@ -22,7 +22,7 @@ function App() {
   const [questionList, setQuestionList] = useState([
     {
       type: "ShortAnswer",
-      uuid: uuid(),
+      uuid: genUuid(),
       active: false
     }
   ]);
@@ -55,13 +55,12 @@ function App() {
       ...questionList,
       {
         type: type,
-        uuid: uuid(),
+        uuid: genUuid(),
         active: false
       }
     ]);
   };
 
-  // Remove function is not working 😭
   const handleRemoveQuestion = componentId => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
@@ -74,12 +73,19 @@ function App() {
     }
   };
 
-  // const handleRemoveQuestion = (event, componentId) => {
-  //   const questionListClone = cloneArray(questionList);
+  // TODO: This is gonna be a hard one!
+  // Need to know complete overview of the question type being cloned and all it's data
+  const handleDupeQuestion = componentId => {
+    const questionListClone = cloneArray(questionList);
+    const index = questionListClone.findIndex(
+      question => question.uuid === componentId
+    );
+    const questionClone = Object.assign({}, questionListClone[index]);
 
-  //   questionListClone.pop();
-  //   setQuestionList(questionListClone);
-  // };
+    questionClone.uuid = genUuid();
+    questionListClone.splice(index, 0, questionClone);
+    setQuestionList(questionListClone);
+  };
 
   const questionTypeList = questionList.map(question => {
     switch (question.type) {
@@ -91,6 +97,7 @@ function App() {
             hasFocus={question.active}
             wasFocused={questionIsActive}
             remove={handleRemoveQuestion}
+            dupe={handleDupeQuestion}
           />
         );
       case "MultipleChoice":

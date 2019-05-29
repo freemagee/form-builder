@@ -74,7 +74,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function ShortAnswer(props) {
-  const { uuid, hasFocus, wasFocused, remove } = props;
+  const { uuid, hasFocus, wasFocused, remove, dupe } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
     required: false,
@@ -96,6 +96,10 @@ function ShortAnswer(props) {
   const handleRemoveQuestion = event => {
     event.stopPropagation();
     remove(uuid);
+  };
+  const handleDupeQuestion = event => {
+    event.stopPropagation();
+    dupe(uuid);
   };
 
   return (
@@ -133,7 +137,7 @@ function ShortAnswer(props) {
           />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
-              <IconButton className={classes.button} aria-label="Duplicate">
+              <IconButton className={classes.button} aria-label="Duplicate" onClick={handleDupeQuestion}>
                 <DuplicateIcon />
               </IconButton>
             </Tooltip>
