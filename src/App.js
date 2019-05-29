@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import AddQuestion from "./AddQuestion";
+import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/ShortAnswer";
 import MultipleChoice from "./QuestionTypes/MultipleChoice/";
 import Container from "@material-ui/core/Container";
@@ -50,11 +51,11 @@ function App() {
     }
   };
 
-  const handleNewQuestion = type => {
+  const handleNewQuestion = () => {
     setQuestionList([
       ...questionList,
       {
-        type: type,
+        type: "ShortAnswer",
         uuid: genUuid(),
         active: false
       }
@@ -130,8 +131,8 @@ function App() {
       maxWidth="md"
       onClick={outsideClick}
     >
-      <AddQuestion type="ShortAnswer" add={handleNewQuestion} />
-      <AddQuestion type="MultipleChoice" add={handleNewQuestion} />
+      <QuestionTypeSelector />
+      <AddQuestion add={handleNewQuestion} />
       {questionTypeList}
     </Container>
   );
