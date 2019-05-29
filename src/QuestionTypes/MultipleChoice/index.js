@@ -210,6 +210,15 @@ function MultipleChoice(props) {
                 }
               </IconButton>
             </Tooltip>
+            <Tooltip title="Delete">
+              <IconButton
+                className={classes.button}
+                aria-label="Delete"
+                onClick={handleRemoveQuestion}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
             <Divider className={classes.vertDivider} />
             <FormControlLabel
               value="required"
