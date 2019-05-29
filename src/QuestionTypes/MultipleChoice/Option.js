@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+// React & Material UI
+import React from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
-
+// Material UI components
 import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
-
-import { useInput } from '../../Hooks/textInputHook';
+// App custom
 import myTheme from "../../Theme.js";
 
 const theme = createMuiTheme(myTheme);
-
 const componentStyleOverrides = {
   optionContainer: {
     display: "flex",
@@ -28,34 +27,26 @@ const componentStyleOverrides = {
     }
   }
 };
-
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Option(props) {
-  let currentValue = props.value;
+  const [value, uuid, cb] = [props.value, props.uuid, props.cb];
   const classes = useStyles();
-  const setOptionValue = (value) => {
-    currentValue = value;
+  const setOptionValue = event => {
+    cb(event.target.value, uuid);
   };
-  const { bind } = useInput(props.value, setOptionValue);
-
-  useEffect(() => {
-    props.cb(currentValue, props.uuid);
-  });
 
   return (
     <Box className={classes.optionContainer}>
-      <Radio
-        color="default"
-        disabled
-      />
+      <Radio color="default" disabled />
       <TextField
+        value={value}
         classes={{ root: classes.optionName }}
         placeholder="Option 1"
-        {...bind}
+        onChange={setOptionValue}
       />
     </Box>
   );
-};
+}
 
 export default Option;

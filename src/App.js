@@ -37,7 +37,9 @@ function App() {
 
   const questionIsActive = componentId => {
     const questionListClone = cloneArray(questionList);
-    const index = questionListClone.findIndex(question => question.uuid === componentId);
+    const index = questionListClone.findIndex(
+      question => question.uuid === componentId
+    );
 
     if (index !== -1) {
       // Set all questions to active: false
@@ -48,7 +50,7 @@ function App() {
     }
   };
 
-  const addNewQuestion = (type) => {
+  const addNewQuestion = type => {
     const questionListClone = cloneArray(questionList);
 
     questionListClone.push({
@@ -83,6 +85,15 @@ function App() {
         return <p>No question type found</p>;
     }
   });
+
+  // return (
+  //   <MultipleChoice
+  //     key="123"
+  //     uuid="123"
+  //     hasFocus={ false }
+  //     wasFocused={questionIsActive}
+  //   />
+  // );
 
   return (
     <Container

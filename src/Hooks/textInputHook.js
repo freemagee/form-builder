@@ -5,7 +5,7 @@ export const useInput = (initialValue, cb) => {
 
   useEffect(() => {
     cb(value);
-  });
+  }, [value, cb]);
 
   return {
     value,

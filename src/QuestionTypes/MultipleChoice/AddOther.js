@@ -38,15 +38,8 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function AddOther(props) {
+  const [newOption, other] = [props.new, props.other];
   const classes = useStyles();
-
-  const handleAddNewOption = event => {
-    props.cb();
-  };
-
-  // useEffect(() => {
-  //   console.log("cock sucker");
-  // });
 
   return (
     <Box className={classes.optionContainer}>
@@ -57,12 +50,13 @@ function AddOther(props) {
       <TextField
         classes={{ root: classes.optionAdd }}
         placeholder="Add option"
-        onClick={handleAddNewOption}
+        onClick={newOption}
       />
       <Typography className={classes.textInline}>or</Typography>
       <Button
         color="primary"
         className={classes.button}
+        onClick={other}
       >
         Add 'other'
       </Button>

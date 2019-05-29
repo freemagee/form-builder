@@ -1,8 +1,9 @@
+// React & Material UI
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-
+// Material UI components
 import Paper from "@material-ui/core/Paper";
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -14,7 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DuplicateIcon from "@material-ui/icons/AddToPhotos";
 import LockIcon from "@material-ui/icons/Lock";
-
+// App custom
 import Option from "./Option";
 import AddOther from "./AddOther";
 import { uuid } from "../../Utils/Math";
@@ -80,15 +81,6 @@ const useStyles = makeStyles(componentStyleOverrides);
 function MultipleChoice(props) {
   const classes = useStyles();
 
-  const setOptionValue = (value, uuid) => {
-    const count = optionsList.optionCount;
-    const options = cloneArray(optionsList.options);
-    const index = options.findIndex(option => option["uuid"] === uuid);
-
-    options[index].value = value;
-    setOptionsList({ optionCount: count, options: options });
-  };
-
   const [state, setState] = React.useState({
     required: false
   });
@@ -123,15 +115,28 @@ function MultipleChoice(props) {
     setOptionsList({ optionCount: newCount, options: options });
   };
 
-  // const handleAddOther = event => {
-  //   const options = optionsList.options;
+  const handleAddOther = event => {
+    const count = optionsList.optionCount;
+    const options = cloneArray(optionsList.options);
 
-  //   options.push({
-  //     value: "Other...",
-  //     uuid: uuid()
-  //   });
-  //   setOptionsList({ options: options });
-  // };
+    options.push({
+      value: "Other...",
+      uuid: uuid()
+    });
+    setOptionsList({ optionCount: count, options: options });
+  };
+
+  const setOptionValue = (value, uuid) => {
+    const count = optionsList.optionCount;
+    const options = cloneArray(optionsList.options);
+    const index = options.findIndex(option => option["uuid"] === uuid);
+    const currentValue = options[index].value;
+
+    if (currentValue !== value) {
+      options[index].value = value;
+      setOptionsList({ optionCount: count, options: options });
+    }
+  };
 
   const renderOptionsList = optionsList.options.map(option => {
     return (
@@ -170,7 +175,7 @@ function MultipleChoice(props) {
             fullWidth
           />
           {renderOptionsList}
-          <AddOther cb={handleAddNewOption} />
+          <AddOther new={handleAddNewOption} other={handleAddOther} />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
               <IconButton className={classes.button} aria-label="Duplicate">
