@@ -33,6 +33,9 @@ const componentStyleOverrides = {
     },
     "& .MuiInputBase-input": {
       fontSize: theme.typography.pxToRem(24)
+    },
+    "& .MuiInputLabel-asterisk": {
+      color: theme.palette.error.main
     }
   },
   paper: {
