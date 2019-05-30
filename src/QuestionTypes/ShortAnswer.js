@@ -80,7 +80,7 @@ function ShortAnswer(props) {
       }
       onClick={handleFocus}
     >
-      <QuestionChanger />
+      <QuestionChanger type="ShortAnswer" />
       <form className={classes.form} noValidate>
         <TextField
           id="question"

@@ -1,6 +1,6 @@
 // React & Material UI
 import React, { useState } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Button from "@material-ui/core/Button";
@@ -25,6 +25,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function QuestionTypeChanger(props) {
+  const { type } = props;
   const classes = useStyles();
   const options = [
     {
@@ -38,8 +39,9 @@ function QuestionTypeChanger(props) {
       icon: <NotesIcon className={classes.icon} />
     }
   ];
+  const startIndex = findTypeIndex(type);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(startIndex);
   const renderOptions = options.map((option, index) => {
     return (
       <MenuItem
@@ -52,6 +54,12 @@ function QuestionTypeChanger(props) {
       </MenuItem>
     );
   });
+
+  function findTypeIndex(needle) {
+    return options.findIndex(
+      option => option.type === needle
+    );
+  }
 
   function handleClickListItem(event) {
     setAnchorEl(event.currentTarget);
@@ -89,10 +97,8 @@ function QuestionTypeChanger(props) {
   );
 }
 
-// Footer.propTypes = {
-//   uuid: PropTypes.string.isRequired,
-//   remove: PropTypes.func.isRequired,
-//   dupe: PropTypes.func.isRequired
-// };
+QuestionTypeChanger.propTypes = {
+  type: PropTypes.string.isRequired,
+};
 
 export default QuestionTypeChanger;
