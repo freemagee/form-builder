@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Input from "@material-ui/core/Input";
 // App custom
 import Footer from "./Shared/Footer";
+import QuestionChanger from "./Shared/QuestionChanger";
 import CustomTheme from "../Theme";
 
 const componentStyleOverrides = {
@@ -79,6 +80,7 @@ function ShortAnswer(props) {
       }
       onClick={handleFocus}
     >
+      <QuestionChanger />
       <form className={classes.form} noValidate>
         <TextField
           id="question"
