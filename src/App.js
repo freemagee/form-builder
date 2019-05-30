@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import AddQuestion from "./AddQuestion";
+// import AddQuestion from "./AddQuestion";
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/ShortAnswer";
 import MultipleChoice from "./QuestionTypes/MultipleChoice/";
@@ -51,11 +51,12 @@ function App() {
     }
   };
 
-  const handleNewQuestion = () => {
+  const handleNewQuestion = type => {
+    console.log(type);
     setQuestionList([
       ...questionList,
       {
-        type: "ShortAnswer",
+        type: type,
         uuid: genUuid(),
         active: false
       }
@@ -123,6 +124,7 @@ function App() {
   //     hasFocus={ false }
   //     wasFocused={questionIsActive}
   //   />
+  //   <AddQuestion add={handleNewQuestion} />
   // );
 
   return (
@@ -131,8 +133,7 @@ function App() {
       maxWidth="md"
       onClick={outsideClick}
     >
-      <QuestionTypeSelector />
-      <AddQuestion add={handleNewQuestion} />
+      <QuestionTypeSelector add={handleNewQuestion} />
       {questionTypeList}
     </Container>
   );
