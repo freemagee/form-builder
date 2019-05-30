@@ -15,6 +15,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DuplicateIcon from "@material-ui/icons/AddToPhotos";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 // App custom
 import myTheme from "../Theme.js";
@@ -31,6 +32,9 @@ const componentStyleOverrides = {
     // },
     "& .MuiInputBase-input": {
       fontSize: theme.typography.pxToRem(24)
+    },
+    "& .MuiInputLabel-asterisk": {
+      color: theme.palette.error.main
     }
   },
   paper: {
@@ -152,7 +156,7 @@ function ShortAnswer(props) {
                 onClick={handleChange("sensitive")}
               >
                 {state.sensitive && <LockIcon color="secondary" />}
-                {!state.sensitive && <LockIcon />}
+                {!state.sensitive && <LockOpenIcon />}
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
@@ -169,7 +173,7 @@ function ShortAnswer(props) {
               value="required"
               control={
                 <Switch
-                  color="primary"
+                  color="secondary"
                   checked={state.required}
                   onChange={handleChange("required")}
                   value="required"

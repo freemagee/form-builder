@@ -14,6 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DuplicateIcon from "@material-ui/icons/AddToPhotos";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 // App custom
 import Option from "./Option";
@@ -211,7 +212,7 @@ function MultipleChoice(props) {
                 onClick={handleChange("sensitive")}
               >
                 {state.sensitive && <LockIcon color="secondary" />}
-                {!state.sensitive && <LockIcon />}
+                {!state.sensitive && <LockOpenIcon />}
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
@@ -228,7 +229,7 @@ function MultipleChoice(props) {
               value="required"
               control={
                 <Switch
-                  color="primary"
+                  color="secondary"
                   checked={state.required}
                   onChange={handleChange("required")}
                   value="required"
