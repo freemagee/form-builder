@@ -1,23 +1,18 @@
 // React & Material UI
 import React from "react";
-// import PropTypes from "prop-types";
-import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
-// import { ThemeProvider } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Divider from "@material-ui/core/Divider";
+// import Divider from "@material-ui/core/Divider";
 import RadioButtonIcon from "@material-ui/icons/RadioButtonChecked";
-// import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import ShortTextIcon from "@material-ui/icons/ShortText";
 import NotesIcon from "@material-ui/icons/Notes";
 // App custom
-// import myTheme from "./Theme.js";
 
-// const theme = createMuiTheme(myTheme);
 const componentStyleOverrides = {
   root: {
     width: "100%",
@@ -97,36 +92,6 @@ function QuestionTypeSelector(props) {
       </Menu>
     </div>
   );
-
-  // return (
-  //   <div className={classes.root}>
-  //     <List component="nav">
-  //       <ListItem
-  //         button
-  //         aria-haspopup="true"
-  //         aria-controls="lock-menu"
-  //         aria-label="Please choose a question type"
-  //         onClick={handleClickListItem}
-  //       >
-  //         <ListItemText primary="Please choose a question type" secondary={options[selectedIndex]} />
-  //       </ListItem>
-  //     </List>
-  //     <Menu id="lock-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-  //       {options.map((option, index) => (
-  //         <MenuItem
-  //           key={option}
-  //           selected={index === selectedIndex}
-  //           onClick={event => handleMenuItemClick(event, index)}
-  //         >
-  //           <ListItemIcon>
-  //             <InboxIcon />
-  //           </ListItemIcon>
-  //           {option}
-  //         </MenuItem>
-  //       ))}
-  //     </Menu>
-  //   </div>
-  // );
 }
 
 export default QuestionTypeSelector;

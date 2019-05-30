@@ -1,22 +1,23 @@
+// React & Material UI
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
-// import AddQuestion from "./AddQuestion";
+// Material UI components
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/ShortAnswer";
 import Paragraph from "./QuestionTypes/Paragraph";
 import MultipleChoice from "./QuestionTypes/MultipleChoice/";
 import Container from "@material-ui/core/Container";
-
+// App custom
+import CustomTheme from "./Theme";
 import { uuid as genUuid } from "./Utils/Math";
 import { cloneArray } from "./Utils/Array";
 
-// 'Extend' the default styles
-const useStyles = makeStyles(theme => ({
+const componentStyleOverrides = {
   container: {
-    paddingTop: theme.spacing(8)
+    paddingTop: CustomTheme.spacing(8)
   }
-}));
+};
+const useStyles = makeStyles(componentStyleOverrides);
 
 function App() {
   const classes = useStyles();
@@ -106,16 +107,16 @@ function App() {
           />
         );
       case "Paragraph":
-          return (
-            <Paragraph
-              key={question.uuid}
-              uuid={question.uuid}
-              hasFocus={question.active}
-              wasFocused={questionIsActive}
-              remove={handleRemoveQuestion}
-              dupe={handleDupeQuestion}
-            />
-          );
+        return (
+          <Paragraph
+            key={question.uuid}
+            uuid={question.uuid}
+            hasFocus={question.active}
+            wasFocused={questionIsActive}
+            remove={handleRemoveQuestion}
+            dupe={handleDupeQuestion}
+          />
+        );
       case "MultipleChoice":
         return (
           <MultipleChoice

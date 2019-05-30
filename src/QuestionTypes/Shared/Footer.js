@@ -1,7 +1,7 @@
 // React & Material UI
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -14,21 +14,20 @@ import DuplicateIcon from "@material-ui/icons/AddToPhotos";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 // App custom
-import myTheme from "../../Theme.js";
+import CustomTheme from "../../Theme";
 
-const theme = createMuiTheme(myTheme);
 // 'Extend' the default styles
 const componentStyleOverrides = {
   button: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
+    marginLeft: CustomTheme.spacing(1),
+    marginRight: CustomTheme.spacing(1)
   },
   footer: {
     display: "flex",
     justifyContent: "flex-end",
-    marginTop: theme.spacing(6),
-    padding: theme.spacing(2),
-    borderTop: `1px solid ${theme.palette.grey[300]}`
+    marginTop: CustomTheme.spacing(6),
+    padding: CustomTheme.spacing(2),
+    borderTop: `1px solid ${CustomTheme.palette.grey[300]}`
   },
   vertDivider: {
     width: 1,
@@ -63,50 +62,50 @@ function Footer(props) {
   };
 
   return (
-      <Box className={classes.footer}>
-        <Tooltip title="Duplicate">
-          <IconButton
-            className={classes.button}
-            aria-label="Duplicate"
-            onClick={handleDupeQuestion}
-          >
-            <DuplicateIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Sensitive answer">
-          <IconButton
-            className={classes.button}
-            aria-label="Sensitive answer"
-            onClick={handleChange("sensitive")}
-          >
-            {state.sensitive && <LockIcon color="secondary" />}
-            {!state.sensitive && <LockOpenIcon />}
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Delete">
-          <IconButton
-            className={classes.button}
-            aria-label="Delete"
-            onClick={handleRemoveQuestion}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-        <Divider className={classes.vertDivider} />
-        <FormControlLabel
-          value="required"
-          control={
-            <Switch
-              color="secondary"
-              checked={state.required}
-              onChange={handleChange("required")}
-              value="required"
-            />
-          }
-          label="Required"
-          labelPlacement="start"
-        />
-      </Box>
+    <Box className={classes.footer}>
+      <Tooltip title="Duplicate">
+        <IconButton
+          className={classes.button}
+          aria-label="Duplicate"
+          onClick={handleDupeQuestion}
+        >
+          <DuplicateIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Sensitive answer">
+        <IconButton
+          className={classes.button}
+          aria-label="Sensitive answer"
+          onClick={handleChange("sensitive")}
+        >
+          {state.sensitive && <LockIcon color="secondary" />}
+          {!state.sensitive && <LockOpenIcon />}
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Delete">
+        <IconButton
+          className={classes.button}
+          aria-label="Delete"
+          onClick={handleRemoveQuestion}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+      <Divider className={classes.vertDivider} />
+      <FormControlLabel
+        value="required"
+        control={
+          <Switch
+            color="secondary"
+            checked={state.required}
+            onChange={handleChange("required")}
+            value="required"
+          />
+        }
+        label="Required"
+        labelPlacement="start"
+      />
+    </Box>
   );
 }
 

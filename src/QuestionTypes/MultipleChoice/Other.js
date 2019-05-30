@@ -8,13 +8,12 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 // App custom
-import myTheme from "../../Theme.js";
+import CustomTheme from "../../Theme";
 
-const theme = createMuiTheme(myTheme);
 const componentStyleOverrides = {
   optionContainer: {
     display: "flex",
-    marginTop: theme.spacing(2)
+    marginTop: CustomTheme.spacing(2)
   },
   optionName: {
     flex: "1 0 auto",
@@ -22,7 +21,7 @@ const componentStyleOverrides = {
       marginTop: "10px"
     },
     "& .MuiInput-underline:before": {
-      borderBottomColor: theme.palette.grey[300]
+      borderBottomColor: CustomTheme.palette.grey[300]
     },
     "& .MuiInputBase-input": {
       paddingTop: 0
