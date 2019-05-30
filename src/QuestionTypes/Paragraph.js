@@ -137,7 +137,11 @@ function Paragraph(props) {
           />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
-              <IconButton className={classes.button} aria-label="Duplicate" onClick={handleDupeQuestion}>
+              <IconButton
+                className={classes.button}
+                aria-label="Duplicate"
+                onClick={handleDupeQuestion}
+              >
                 <DuplicateIcon />
               </IconButton>
             </Tooltip>
@@ -147,12 +151,8 @@ function Paragraph(props) {
                 aria-label="Sensitive answer"
                 onClick={handleChange("sensitive")}
               >
-                {state.sensitive &&
-                  <LockIcon color="secondary" />
-                }
-                {!state.sensitive &&
-                  <LockIcon />
-                }
+                {state.sensitive && <LockIcon color="secondary" />}
+                {!state.sensitive && <LockIcon />}
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
@@ -189,7 +189,8 @@ Paragraph.propTypes = {
   uuid: PropTypes.string.isRequired,
   hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  dupe: PropTypes.func.isRequired
 };
 
 export default Paragraph;

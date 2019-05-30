@@ -124,6 +124,7 @@ function App() {
             hasFocus={question.active}
             wasFocused={questionIsActive}
             remove={handleRemoveQuestion}
+            dupe={handleDupeQuestion}
           />
         );
       default:

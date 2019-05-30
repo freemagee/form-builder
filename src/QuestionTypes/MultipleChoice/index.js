@@ -80,7 +80,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
-  const { uuid, hasFocus, wasFocused, remove } = props;
+  const { uuid, hasFocus, wasFocused, remove, dupe } = props;
   const classes = useStyles();
   const [state, setState] = useState({
     required: false,
@@ -144,6 +144,10 @@ function MultipleChoice(props) {
     event.stopPropagation();
     remove(uuid);
   };
+  const handleDupeQuestion = event => {
+    event.stopPropagation();
+    dupe(uuid);
+  };
   const renderOptionsList = options.map(option => {
     return (
       <Option
@@ -168,9 +172,9 @@ function MultipleChoice(props) {
       >
         <form className={classes.form} noValidate>
           <TextField
-            id="title"
+            id="question"
             classes={{ root: classes.title }}
-            label="Title"
+            label="Question"
             required
             fullWidth
             autoFocus
@@ -192,7 +196,11 @@ function MultipleChoice(props) {
           />
           <Box className={classes.footer}>
             <Tooltip title="Duplicate">
-              <IconButton className={classes.button} aria-label="Duplicate">
+              <IconButton
+                className={classes.button}
+                aria-label="Duplicate"
+                onClick={handleDupeQuestion}
+              >
                 <DuplicateIcon />
               </IconButton>
             </Tooltip>
@@ -202,12 +210,8 @@ function MultipleChoice(props) {
                 aria-label="Sensitive answer"
                 onClick={handleChange("sensitive")}
               >
-                {state.sensitive &&
-                  <LockIcon color="secondary" />
-                }
-                {!state.sensitive &&
-                  <LockIcon />
-                }
+                {state.sensitive && <LockIcon color="secondary" />}
+                {!state.sensitive && <LockIcon />}
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
@@ -243,7 +247,9 @@ function MultipleChoice(props) {
 MultipleChoice.propTypes = {
   uuid: PropTypes.string.isRequired,
   hasFocus: PropTypes.bool.isRequired,
-  wasFocused: PropTypes.func.isRequired
+  wasFocused: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
+  dupe: PropTypes.func.isRequired
 };
 
 export default MultipleChoice;
