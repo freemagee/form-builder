@@ -1,5 +1,5 @@
 // React & Material UI
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -82,18 +82,18 @@ const useStyles = makeStyles(componentStyleOverrides);
 function MultipleChoice(props) {
   const { uuid, hasFocus, wasFocused, remove } = props;
   const classes = useStyles();
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     required: false,
     sensitive: false,
     hasOther: false
   });
-  const [options, setOptions] = React.useState([
+  const [options, setOptions] = useState([
     {
       value: "Option 1",
       uuid: genUuid()
     }
   ]);
-  const [count, setOptionsCount] = React.useState(1);
+  const [count, setOptionsCount] = useState(1);
   const handleChange = name => event => {
     if (name !== "required") {
       const current = state[name];

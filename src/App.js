@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-
   const [questionList, setQuestionList] = useState([
     {
       type: "ShortAnswer",
@@ -27,7 +26,7 @@ function App() {
       active: false
     }
   ]);
-
+  const [questionCount, setQuestionCount] = useState(1);
   const outsideClick = event => {
     event.preventDefault();
     const questionListClone = cloneArray(questionList);
@@ -52,7 +51,6 @@ function App() {
   };
 
   const handleNewQuestion = type => {
-    console.log(type);
     setQuestionList([
       ...questionList,
       {
@@ -61,6 +59,7 @@ function App() {
         active: false
       }
     ]);
+    setQuestionCount(questionCount => questionCount + 1);
   };
 
   const handleRemoveQuestion = componentId => {
@@ -69,9 +68,10 @@ function App() {
       question => question.uuid === componentId
     );
 
-    if (index !== -1) {
+    if (questionCount > 1 && index !== -1) {
       questionListClone.splice(index, 1);
       setQuestionList(questionListClone);
+      setQuestionCount(questionCount => questionCount - 1);
     }
   };
 
@@ -85,8 +85,10 @@ function App() {
     const questionClone = Object.assign({}, questionListClone[index]);
 
     questionClone.uuid = genUuid();
-    questionListClone.splice(index, 0, questionClone);
+    questionClone.active = false;
+    questionListClone.splice(index + 1, 0, questionClone);
     setQuestionList(questionListClone);
+    setQuestionCount(questionCount => questionCount + 1);
   };
 
   const questionTypeList = questionList.map(question => {
@@ -116,16 +118,6 @@ function App() {
         return <p>Error! No matching question type found</p>;
     }
   });
-
-  // return (
-  //   <MultipleChoice
-  //     key="123"
-  //     uuid="123"
-  //     hasFocus={ false }
-  //     wasFocused={questionIsActive}
-  //   />
-  //   <AddQuestion add={handleNewQuestion} />
-  // );
 
   return (
     <Container
