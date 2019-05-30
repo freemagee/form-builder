@@ -9,9 +9,11 @@ import AddIcon from "@material-ui/icons/Add";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import Divider from "@material-ui/core/Divider";
 import RadioButtonIcon from "@material-ui/icons/RadioButtonChecked";
 // import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import ShortTextIcon from "@material-ui/icons/ShortText";
+import NotesIcon from "@material-ui/icons/Notes";
 // App custom
 // import myTheme from "./Theme.js";
 
@@ -24,6 +26,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 const options = [
   { name: "Short Answer", type: "ShortAnswer" },
+  { name: "Paragraph", type: "Paragraph" },
   { name: "Multiple Choice", type: "MultipleChoice" }
 ];
 
@@ -55,6 +58,9 @@ function QuestionTypeSelector(props) {
       case "ShortAnswer":
         icon = <ShortTextIcon />;
         break;
+      case "Paragraph":
+          icon = <NotesIcon />;
+          break;
       case "MultipleChoice":
         icon = <RadioButtonIcon />;
         break;

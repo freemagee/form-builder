@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // import AddQuestion from "./AddQuestion";
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/ShortAnswer";
+import Paragraph from "./QuestionTypes/Paragraph";
 import MultipleChoice from "./QuestionTypes/MultipleChoice/";
 import Container from "@material-ui/core/Container";
 
@@ -104,6 +105,17 @@ function App() {
             dupe={handleDupeQuestion}
           />
         );
+      case "Paragraph":
+          return (
+            <Paragraph
+              key={question.uuid}
+              uuid={question.uuid}
+              hasFocus={question.active}
+              wasFocused={questionIsActive}
+              remove={handleRemoveQuestion}
+              dupe={handleDupeQuestion}
+            />
+          );
       case "MultipleChoice":
         return (
           <MultipleChoice

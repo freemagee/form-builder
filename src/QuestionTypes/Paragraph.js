@@ -50,7 +50,7 @@ const componentStyleOverrides = {
   input: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
-    width: "50%",
+    width: "75%",
     "& .MuiInputBase-input": {
       fontSize: theme.typography.pxToRem(14)
     }
@@ -73,7 +73,7 @@ const componentStyleOverrides = {
 };
 const useStyles = makeStyles(componentStyleOverrides);
 
-function ShortAnswer(props) {
+function Paragraph(props) {
   const { uuid, hasFocus, wasFocused, remove, dupe } = props;
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -123,12 +123,12 @@ function ShortAnswer(props) {
           />
           <TextField
             id="description"
-            label="Description (optional)"
+            label="Description"
             margin="normal"
             fullWidth
           />
           <Input
-            value="Short answer text"
+            value="Long answer text"
             className={classes.input}
             disabled
             inputProps={{
@@ -185,11 +185,11 @@ function ShortAnswer(props) {
   );
 }
 
-ShortAnswer.propTypes = {
+Paragraph.propTypes = {
   uuid: PropTypes.string.isRequired,
   hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired
 };
 
-export default ShortAnswer;
+export default Paragraph;
