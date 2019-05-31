@@ -9,56 +9,13 @@ import Input from "@material-ui/core/Input";
 // App custom
 import Footer from "./Shared/Footer";
 import QuestionChanger from "./Shared/QuestionChanger";
-import CustomTheme from "../Theme";
+// import CustomTheme from "../Theme";
+import CustomStyles from "./Shared/Styles";
 
 const componentStyleOverrides = {
-  title: {
-    "& .MuiFormLabel-root": {
-      fontSize: CustomTheme.typography.pxToRem(24)
-    },
-    "& .MuiInputBase-input": {
-      fontSize: CustomTheme.typography.pxToRem(24)
-    },
-    "& .MuiInputLabel-asterisk": {
-      color: CustomTheme.palette.error.main
-    }
-  },
-  paper: {
-    marginTop: CustomTheme.spacing(4),
-    paddingTop: CustomTheme.spacing(4),
-    paddingLeft: CustomTheme.spacing(4),
-    paddingRight: CustomTheme.spacing(4),
-    borderLeft: `3px solid transparent`
-  },
-  paperActive: {
-    boxShadow: CustomTheme.shadows[7],
-    borderLeft: `3px solid ${CustomTheme.palette.primary.main}`
-  },
-  form: {
-    width: "100%" // Fix IE 11 issue.
-  },
+  ...CustomStyles,
   input: {
-    marginTop: CustomTheme.spacing(1),
-    marginBottom: CustomTheme.spacing(1),
-    width: "80%",
-    "& .MuiInputBase-input": {
-      fontSize: CustomTheme.typography.pxToRem(14)
-    }
-  },
-  button: {
-    marginLeft: CustomTheme.spacing(1),
-    marginRight: CustomTheme.spacing(1)
-  },
-  footer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: CustomTheme.spacing(6),
-    padding: CustomTheme.spacing(2),
-    borderTop: `1px solid ${CustomTheme.palette.grey[300]}`
-  },
-  vertDivider: {
-    width: 1,
-    height: 48
+    width: "80%"
   }
 };
 const useStyles = makeStyles(componentStyleOverrides);
