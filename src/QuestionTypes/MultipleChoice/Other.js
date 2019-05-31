@@ -1,6 +1,6 @@
 // React & Material UI
 import React from "react";
-import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Box from "@material-ui/core/Box";
 import Radio from "@material-ui/core/Radio";
