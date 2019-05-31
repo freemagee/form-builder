@@ -40,7 +40,7 @@ const componentStyleOverrides = {
   input: {
     marginTop: CustomTheme.spacing(1),
     marginBottom: CustomTheme.spacing(1),
-    width: "50%",
+    width: "40%",
     "& .MuiInputBase-input": {
       fontSize: CustomTheme.typography.pxToRem(14)
     }
@@ -64,12 +64,17 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function ShortAnswer(props) {
-  const { uuid, hasFocus, wasFocused, remove, dupe } = props;
+  const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
   const classes = useStyles();
-  const handleFocus = event => {
+
+  function handleFocus(event) {
     event.stopPropagation();
     wasFocused(uuid);
-  };
+  }
+
+  function handleChangeType(newType) {
+    changeType(newType, uuid);
+  }
 
   return (
     <Paper
@@ -80,7 +85,7 @@ function ShortAnswer(props) {
       }
       onClick={handleFocus}
     >
-      <QuestionChanger type="ShortAnswer" />
+      <QuestionChanger type="ShortAnswer" changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
           id="question"
@@ -115,7 +120,8 @@ ShortAnswer.propTypes = {
   hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
-  dupe: PropTypes.func.isRequired
+  dupe: PropTypes.func.isRequired,
+  changeType: PropTypes.func.isRequired,
 };
 
 export default ShortAnswer;

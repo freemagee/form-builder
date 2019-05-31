@@ -25,7 +25,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function QuestionTypeChanger(props) {
-  const { type } = props;
+  const { type, changeType } = props;
   const classes = useStyles();
   const options = [
     {
@@ -66,8 +66,10 @@ function QuestionTypeChanger(props) {
   }
 
   function handleMenuItemClick(event, index) {
+    event.stopPropagation();
     setSelectedIndex(index);
     setAnchorEl(null);
+    changeType(options[index].type)
   }
 
   function handleClose() {

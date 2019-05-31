@@ -40,7 +40,7 @@ const componentStyleOverrides = {
   input: {
     marginTop: CustomTheme.spacing(1),
     marginBottom: CustomTheme.spacing(1),
-    width: "75%",
+    width: "80%",
     "& .MuiInputBase-input": {
       fontSize: CustomTheme.typography.pxToRem(14)
     }
@@ -64,49 +64,54 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Paragraph(props) {
-  const { uuid, hasFocus, wasFocused, remove, dupe } = props;
+  const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
   const classes = useStyles();
-  const handleFocus = event => {
+
+  function handleFocus(event) {
     event.stopPropagation();
     wasFocused(uuid);
-  };
+  }
+
+  function handleChangeType(newType) {
+    changeType(newType, uuid);
+  }
 
   return (
-      <Paper
-        className={
-          hasFocus === true
-            ? [classes.paper, classes.paperActive].join(" ")
-            : classes.paper
-        }
-        onClick={handleFocus}
-      >
-        <QuestionChanger type="Paragraph" />
-        <form className={classes.form} noValidate>
-          <TextField
-            id="question"
-            classes={{ root: classes.title }}
-            label="Question"
-            required
-            fullWidth
-            autoFocus
-          />
-          <TextField
-            id="description"
-            label="Description"
-            margin="normal"
-            fullWidth
-          />
-          <Input
-            value="Long answer text"
-            className={classes.input}
-            disabled
-            inputProps={{
-              "aria-label": "Description"
-            }}
-          />
-          <Footer remove={remove} dupe={dupe} uuid={uuid} />
-        </form>
-      </Paper>
+    <Paper
+      className={
+        hasFocus === true
+          ? [classes.paper, classes.paperActive].join(" ")
+          : classes.paper
+      }
+      onClick={handleFocus}
+    >
+      <QuestionChanger type="Paragraph" changeType={handleChangeType} />
+      <form className={classes.form} noValidate>
+        <TextField
+          id="question"
+          classes={{ root: classes.title }}
+          label="Question"
+          required
+          fullWidth
+          autoFocus
+        />
+        <TextField
+          id="description"
+          label="Description"
+          margin="normal"
+          fullWidth
+        />
+        <Input
+          value="Long answer text"
+          className={classes.input}
+          disabled
+          inputProps={{
+            "aria-label": "Description"
+          }}
+        />
+        <Footer remove={remove} dupe={dupe} uuid={uuid} />
+      </form>
+    </Paper>
   );
 }
 
@@ -115,7 +120,8 @@ Paragraph.propTypes = {
   hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
-  dupe: PropTypes.func.isRequired
+  dupe: PropTypes.func.isRequired,
+  changeType: PropTypes.func.isRequired,
 };
 
 export default Paragraph;

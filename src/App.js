@@ -86,11 +86,28 @@ function App() {
     );
     const questionClone = Object.assign({}, questionListClone[index]);
 
+    // Make adjustments to the cloned question obj
     questionClone.uuid = genUuid();
     questionClone.active = false;
+    // Insert the question clone into the list clone
     questionListClone.splice(index + 1, 0, questionClone);
+    // Update state
     setQuestionList(questionListClone);
     setQuestionCount(questionCount => questionCount + 1);
+  };
+
+  const handleChangeType = (newType, componentId) => {
+    const questionListClone = cloneArray(questionList);
+    const index = questionListClone.findIndex(
+      question => question.uuid === componentId
+    );
+    const questionClone = Object.assign({}, questionListClone[index]);
+
+    // Make adjustments to the cloned question obj
+    questionClone.type = newType;
+    // Replace the original question with the clone question
+    questionListClone[index] = questionClone;
+    setQuestionList(questionListClone);
   };
 
   const questionTypeList = questionList.map(question => {
@@ -104,6 +121,7 @@ function App() {
             wasFocused={questionIsActive}
             remove={handleRemoveQuestion}
             dupe={handleDupeQuestion}
+            changeType={handleChangeType}
           />
         );
       case "Paragraph":
@@ -115,6 +133,7 @@ function App() {
             wasFocused={questionIsActive}
             remove={handleRemoveQuestion}
             dupe={handleDupeQuestion}
+            changeType={handleChangeType}
           />
         );
       case "MultipleChoice":
