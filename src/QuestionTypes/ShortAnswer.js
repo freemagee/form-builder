@@ -66,6 +66,9 @@ const useStyles = makeStyles(componentStyleOverrides);
 function ShortAnswer(props) {
   const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
   const classes = useStyles();
+  const handleChange = name => event => {
+    props.changeQuestionValue(name, event.target.value, uuid);
+  };
 
   function handleFocus(event) {
     event.stopPropagation();
@@ -88,16 +91,20 @@ function ShortAnswer(props) {
       <QuestionChanger type="ShortAnswer" changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
+          value={props.question}
           id="question"
           classes={{ root: classes.title }}
           label="Question"
+          onChange={handleChange("question")}
           required
           fullWidth
           autoFocus
         />
         <TextField
+          value={props.description}
           id="description"
           label="Description (optional)"
+          onChange={handleChange("description")}
           margin="normal"
           fullWidth
         />
@@ -122,6 +129,8 @@ ShortAnswer.propTypes = {
   remove: PropTypes.func.isRequired,
   dupe: PropTypes.func.isRequired,
   changeType: PropTypes.func.isRequired,
+  question: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };
 
 export default ShortAnswer;

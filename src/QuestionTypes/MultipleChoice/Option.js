@@ -34,7 +34,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Option(props) {
-  const [value, uuid, set, remove] = [props.value, props.uuid, props.set, props.remove];
+  const {value, uuid, set, remove} = props;
   const classes = useStyles();
 
   return (

@@ -25,7 +25,9 @@ function App() {
     {
       type: "ShortAnswer",
       uuid: genUuid(),
-      active: false
+      active: false,
+      question: "",
+      description: ""
     }
   ]);
   const [questionCount, setQuestionCount] = useState(1);
@@ -58,7 +60,9 @@ function App() {
       {
         type: type,
         uuid: genUuid(),
-        active: false
+        active: false,
+        question: "",
+        description: ""
       }
     ]);
     setQuestionCount(questionCount => questionCount + 1);
@@ -110,6 +114,22 @@ function App() {
     setQuestionList(questionListClone);
   };
 
+  const handleQuestionValueChange = (name, value, componentId) => {
+    //console.log(event.target.value, componentId);
+
+    const questionListClone = cloneArray(questionList);
+    const index = questionListClone.findIndex(
+      question => question.uuid === componentId
+    );
+    const questionClone = Object.assign({}, questionListClone[index]);
+
+    // Make adjustments to the cloned question obj
+    questionClone[name] = value;
+    // Replace the original question with the clone question
+    questionListClone[index] = questionClone;
+    setQuestionList(questionListClone);
+  };
+
   const questionTypeList = questionList.map(question => {
     const propsBootstrap = {
       key: question.uuid,
@@ -118,8 +138,12 @@ function App() {
       wasFocused: questionIsActive,
       remove: handleRemoveQuestion,
       dupe: handleDupeQuestion,
+      changeQuestionValue: handleQuestionValueChange,
       changeType: handleChangeType,
-    }
+      question: question.question,
+      description: question.description,
+    };
+
     switch (question.type) {
       case "ShortAnswer":
         return (

@@ -121,6 +121,9 @@ function MultipleChoice(props) {
       setOptions(optionsClone);
     }
   };
+  const handleChange = name => event => {
+    props.changeQuestionValue(name, event.target.value, uuid);
+  };
   const renderOptionsList = options.map(option => {
     return (
       <Option
@@ -134,41 +137,45 @@ function MultipleChoice(props) {
   });
 
   return (
-      <Paper
-        className={
-          hasFocus === true
-            ? [classes.paper, classes.paperActive].join(" ")
-            : classes.paper
-        }
-        onClick={handleFocus}
-      >
-        <form className={classes.form} noValidate>
-          <TextField
-            id="question"
-            classes={{ root: classes.title }}
-            label="Question"
-            required
-            fullWidth
-            autoFocus
-          />
-          <TextField
-            id="description"
-            label="Description"
-            margin="normal"
-            fullWidth
-          />
-          {renderOptionsList}
-          {state.hasOther && (
-            <Other remove={() => setState({ ...state, hasOther: false })} />
-          )}
-          <AddOther
-            new={handleAddNewOption}
-            other={handleAddOther}
-            hasOther={state.hasOther}
-          />
-          <Footer remove={remove} dupe={dupe} uuid={uuid} />
-        </form>
-      </Paper>
+    <Paper
+      className={
+        hasFocus === true
+          ? [classes.paper, classes.paperActive].join(" ")
+          : classes.paper
+      }
+      onClick={handleFocus}
+    >
+      <form className={classes.form} noValidate>
+        <TextField
+          value={props.question}
+          id="question"
+          classes={{ root: classes.title }}
+          label="Question"
+          onChange={handleChange("question")}
+          required
+          fullWidth
+          autoFocus
+        />
+        <TextField
+          value={props.description}
+          id="description"
+          label="Description (optional)"
+          onChange={handleChange("description")}
+          margin="normal"
+          fullWidth
+        />
+        {renderOptionsList}
+        {state.hasOther && (
+          <Other remove={() => setState({ ...state, hasOther: false })} />
+        )}
+        <AddOther
+          new={handleAddNewOption}
+          other={handleAddOther}
+          hasOther={state.hasOther}
+        />
+        <Footer remove={remove} dupe={dupe} uuid={uuid} />
+      </form>
+    </Paper>
   );
 }
 
@@ -177,7 +184,9 @@ MultipleChoice.propTypes = {
   hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
-  dupe: PropTypes.func.isRequired
+  dupe: PropTypes.func.isRequired,
+  question: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };
 
 export default MultipleChoice;
