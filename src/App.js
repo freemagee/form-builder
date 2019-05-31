@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
+import Container from "@material-ui/core/Container";
+// App custom
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/ShortAnswer";
 import Paragraph from "./QuestionTypes/Paragraph";
 import MultipleChoice from "./QuestionTypes/MultipleChoice/";
-import Container from "@material-ui/core/Container";
-// App custom
 import CustomTheme from "./Theme";
 import { uuid as genUuid } from "./Utils/Math";
 import { cloneArray } from "./Utils/Array";
@@ -111,41 +111,27 @@ function App() {
   };
 
   const questionTypeList = questionList.map(question => {
+    const propsBootstrap = {
+      key: question.uuid,
+      uuid: question.uuid,
+      hasFocus: question.active,
+      wasFocused: questionIsActive,
+      remove: handleRemoveQuestion,
+      dupe: handleDupeQuestion,
+      changeType: handleChangeType,
+    }
     switch (question.type) {
       case "ShortAnswer":
         return (
-          <ShortAnswer
-            key={question.uuid}
-            uuid={question.uuid}
-            hasFocus={question.active}
-            wasFocused={questionIsActive}
-            remove={handleRemoveQuestion}
-            dupe={handleDupeQuestion}
-            changeType={handleChangeType}
-          />
+          <ShortAnswer {...propsBootstrap} />
         );
       case "Paragraph":
         return (
-          <Paragraph
-            key={question.uuid}
-            uuid={question.uuid}
-            hasFocus={question.active}
-            wasFocused={questionIsActive}
-            remove={handleRemoveQuestion}
-            dupe={handleDupeQuestion}
-            changeType={handleChangeType}
-          />
+          <Paragraph {...propsBootstrap} />
         );
       case "MultipleChoice":
         return (
-          <MultipleChoice
-            key={question.uuid}
-            uuid={question.uuid}
-            hasFocus={question.active}
-            wasFocused={questionIsActive}
-            remove={handleRemoveQuestion}
-            dupe={handleDupeQuestion}
-          />
+          <MultipleChoice {...propsBootstrap} />
         );
       default:
         return <p>Error! No matching question type found</p>;
