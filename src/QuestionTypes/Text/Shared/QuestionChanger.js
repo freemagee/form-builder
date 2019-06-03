@@ -20,6 +20,14 @@ const componentStyleOverrides = {
   button: {},
   icon: {
     marginRight: CustomTheme.spacing(2)
+  },
+  menuItem: {
+    fontSize: CustomTheme.typography.pxToRem(14),
+    fontWeight: CustomTheme.typography.fontWeightMedium,
+    textTransform: "uppercase",
+  },
+  listItem: {
+    minWidth: "auto"
   }
 };
 const useStyles = makeStyles(componentStyleOverrides);
@@ -48,8 +56,9 @@ function QuestionTypeChanger(props) {
         key={option.name}
         selected={index === selectedIndex}
         onClick={event => handleMenuItemClick(event, index)}
+        classes={{ root: classes.menuItem }}
       >
-        <ListItemIcon>{option.icon}</ListItemIcon>
+        <ListItemIcon classes={{ root: classes.listItem }}>{option.icon}</ListItemIcon>
         {option.name}
       </MenuItem>
     );
