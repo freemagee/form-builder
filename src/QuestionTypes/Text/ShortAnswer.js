@@ -20,10 +20,19 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function ShortAnswer(props) {
-  const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
+  const { uuid, hasFocus, wasFocused, remove, dupe, changeType, question, description, changeQuestionValue } = props;
   const classes = useStyles();
-  const handleChange = name => event => {
-    props.changeQuestionValue(name, event.target.value, uuid);
+  const handleQuestionChange = event => {
+    event.stopPropagation();
+    if (event.target.value !== question) {
+      changeQuestionValue(event.target.name, event.target.value, uuid);
+    }
+  };
+  const handleDescriptionChange = event => {
+    event.stopPropagation();
+    if (event.target.value !== description) {
+      changeQuestionValue(event.target.name, event.target.value, uuid);
+    }
   };
 
   function handleFocus(event) {
@@ -47,29 +56,31 @@ function ShortAnswer(props) {
       <QuestionChanger type="ShortAnswer" changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
-          value={props.question}
+          name="question"
+          defaultValue={question}
           id="question"
           classes={{ root: classes.title }}
           label="Question"
-          onChange={handleChange("question")}
+          onBlur={handleQuestionChange}
           required
           fullWidth
           autoFocus
         />
         <TextField
-          value={props.description}
+          name="description"
+          defaultValue={description}
           id="description"
           label="Description (optional)"
-          onChange={handleChange("description")}
+          onBlur={handleDescriptionChange}
           margin="normal"
           fullWidth
         />
         <Input
-          value="Short answer text"
+          defaultValue="Short answer text"
           className={classes.input}
           disabled
           inputProps={{
-            "aria-label": "Description"
+            "aria-label": "Short answer text"
           }}
         />
         <Footer remove={remove} dupe={dupe} uuid={uuid} />
