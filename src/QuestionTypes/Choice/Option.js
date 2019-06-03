@@ -3,7 +3,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Box from "@material-ui/core/Box";
-import Radio from "@material-ui/core/Radio";
+import Checkbox from '@material-ui/core/Checkbox';
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -39,7 +39,7 @@ function Option(props) {
 
   return (
     <Box className={classes.optionContainer}>
-      <Radio color="default" disabled />
+      <Checkbox color="default" disabled />
       <TextField
         value={value}
         classes={{ root: classes.optionName }}
