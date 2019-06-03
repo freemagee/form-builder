@@ -5,10 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 // App custom
-import CustomTheme from "../../Theme";
+import CustomTheme from "../../../Theme";
 
 const componentStyleOverrides = {
   optionContainer: {
@@ -27,34 +27,35 @@ const componentStyleOverrides = {
       paddingTop: 0
     }
   },
-  button: {
-    "&:hover": {backgroundColor: "transparent"}
-  },
+  textInline: {
+    alignSelf: "center",
+    margin: "0 10px"
+  }
 };
 const useStyles = makeStyles(componentStyleOverrides);
 
-function Option(props) {
-  const {value, uuid, set, remove} = props;
+function AddOther(props) {
+  const [newOption, other, hasOther] = [props.new, props.other, props.hasOther];
   const classes = useStyles();
 
   return (
     <Box className={classes.optionContainer}>
       <Checkbox color="default" disabled />
       <TextField
-        value={value}
-        classes={{ root: classes.optionName }}
-        placeholder="Option 1"
-        onChange={(event) => set(event.target.value, uuid)}
+        classes={{ root: classes.optionAdd }}
+        placeholder="Add option"
+        onClick={newOption}
       />
-      <IconButton
-        className={classes.button}
-        aria-label="Remove option"
-        onClick={() => remove(uuid)}
-      >
-        <CloseIcon />
-      </IconButton>
+      {hasOther === false && (
+        <Typography className={classes.textInline}>or</Typography>
+      )}
+      {hasOther === false && (
+        <Button color="primary" className={classes.button} onClick={other}>
+          Add 'other'
+        </Button>
+      )}
     </Box>
   );
 }
 
-export default Option;
+export default AddOther;

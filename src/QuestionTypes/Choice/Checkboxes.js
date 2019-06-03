@@ -6,9 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 // App custom
-import Option from "./Option";
-import AddOther from "./AddOther";
-import Other from "./Other";
+import Option from "./Shared/Option";
+import AddOther from "./Shared/AddOther";
+import Other from "./Shared/Other";
 import { uuid as genUuid } from "../../Utils/Math";
 import { cloneArray } from "../../Utils/Array";
 import Footer from "./Shared/Footer";

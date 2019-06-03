@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 // App custom
-import CustomTheme from "../../Theme";
+import CustomTheme from "../../../Theme";
 
 const componentStyleOverrides = {
   optionContainer: {
