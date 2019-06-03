@@ -168,14 +168,15 @@ function App() {
   });
 
   return (
-    <Container
-      className={classes.container}
-      maxWidth="md"
-      onClick={outsideClick}
-    >
-      <QuestionTypeSelector add={handleNewQuestion} />
-      {questionTypeList}
-    </Container>
+    <div onClick={outsideClick}>
+      <Container
+        className={classes.container}
+        maxWidth="md"
+      >
+        <QuestionTypeSelector add={handleNewQuestion} />
+        {questionTypeList}
+      </Container>
+    </div>
   );
 }
 
