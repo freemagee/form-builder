@@ -1,38 +1,34 @@
 // React & Material UI
 import React from "react";
-import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
-import IconButton from '@material-ui/core/IconButton';
+import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+// import Divider from "@material-ui/core/Divider";
 import RadioButtonIcon from "@material-ui/icons/RadioButtonChecked";
 import ShortTextIcon from "@material-ui/icons/ShortText";
 import NotesIcon from "@material-ui/icons/Notes";
 import CheckboxIcon from "@material-ui/icons/CheckBox";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 
-function ElevationScroll(props) {
-  const { children } = props;
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0
-  });
-
-  return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0
-  });
-}
-
-ElevationScroll.propTypes = {
-  children: PropTypes.node.isRequired
+const componentStyleOverrides = {
+  root: {
+    width: "100%"
+  }
 };
+const useStyles = makeStyles(componentStyleOverrides);
+const options = [
+  { name: "Short Answer", type: "ShortAnswer" },
+  { name: "Paragraph", type: "Paragraph" },
+  { name: "Multiple Choice", type: "MultipleChoice" },
+  { name: "Checkboxes", type: "Checkboxes" }
+];
 
 function QuestionTypeSelector(props) {
-  const { types, add } = props;
+  const { add } = props;
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -44,14 +40,14 @@ function QuestionTypeSelector(props) {
     event.stopPropagation();
     setSelectedIndex(index);
     setAnchorEl(null);
-    add(types[index].type);
+    add(options[index].type);
   }
 
   function handleClose() {
     setAnchorEl(null);
   }
 
-  const renderOptions = types.map((option, index) => {
+  const renderOptions = options.map((option, index) => {
     let icon = null;
 
     switch (option.type) {
@@ -84,25 +80,19 @@ function QuestionTypeSelector(props) {
   });
 
   return (
-    <React.Fragment>
-      <ElevationScroll {...props}>
-        <AppBar>
-          <Toolbar>
-            <IconButton edge="start" onClick={handleClickListItem}>
-              <AddIcon />
-            </IconButton>
-            <Menu
-              id="lock-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {renderOptions}
-            </Menu>
-          </Toolbar>
-        </AppBar>
-      </ElevationScroll>
-    </React.Fragment>
+    <div className={classes.root}>
+      <Fab aria-label="Add" onClick={handleClickListItem}>
+        <AddIcon />
+      </Fab>
+      <Menu
+        id="lock-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        {renderOptions}
+      </Menu>
+    </div>
   );
 }
 

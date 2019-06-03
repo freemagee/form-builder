@@ -19,6 +19,12 @@ const componentStyleOverrides = {
   }
 };
 const useStyles = makeStyles(componentStyleOverrides);
+const questionTypes = [
+  { name: "Short Answer", type: "ShortAnswer" },
+  { name: "Paragraph", type: "Paragraph" },
+  { name: "Multiple Choice", type: "MultipleChoice" },
+  { name: "Checkboxes", type: "Checkboxes" }
+];
 
 function App() {
   const classes = useStyles();
@@ -39,7 +45,6 @@ function App() {
     questionListClone.forEach(question => (question.active = false));
     setQuestionList(questionListClone);
   };
-
   const questionIsActive = componentId => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
@@ -54,7 +59,6 @@ function App() {
       setQuestionList(questionListClone);
     }
   };
-
   const handleNewQuestion = type => {
     setQuestionList([
       ...questionList,
@@ -68,7 +72,6 @@ function App() {
     ]);
     setQuestionCount(questionCount => questionCount + 1);
   };
-
   const handleRemoveQuestion = componentId => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
@@ -81,7 +84,6 @@ function App() {
       setQuestionCount(questionCount => questionCount - 1);
     }
   };
-
   // TODO: This is gonna be a hard one!
   // Need to know complete overview of the question type being cloned and all it's data
   const handleDupeQuestion = componentId => {
@@ -100,7 +102,6 @@ function App() {
     setQuestionList(questionListClone);
     setQuestionCount(questionCount => questionCount + 1);
   };
-
   const handleChangeType = (newType, componentId) => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
@@ -114,7 +115,6 @@ function App() {
     questionListClone[index] = questionClone;
     setQuestionList(questionListClone);
   };
-
   const handleQuestionValueChange = (name, value, componentId) => {
     //console.log(event.target.value, componentId);
 
@@ -130,7 +130,6 @@ function App() {
     questionListClone[index] = questionClone;
     setQuestionList(questionListClone);
   };
-
   const questionTypeList = questionList.map(question => {
     const propsBootstrap = {
       key: question.uuid,
@@ -173,7 +172,7 @@ function App() {
         className={classes.container}
         maxWidth="md"
       >
-        <QuestionTypeSelector add={handleNewQuestion} />
+        <QuestionTypeSelector types={questionTypes} add={handleNewQuestion} />
         {questionTypeList}
       </Container>
     </div>
