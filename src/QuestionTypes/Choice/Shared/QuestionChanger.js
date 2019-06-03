@@ -7,8 +7,8 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ShortTextIcon from "@material-ui/icons/ShortText";
-import NotesIcon from "@material-ui/icons/Notes";
+import RadioButtonIcon from "@material-ui/icons/RadioButtonChecked";
+import CheckboxIcon from "@material-ui/icons/CheckBox";
 // App custom
 import CustomTheme from "../../../Theme";
 
@@ -29,14 +29,14 @@ function QuestionTypeChanger(props) {
   const classes = useStyles();
   const options = [
     {
-      name: "Short Answer",
-      type: "ShortAnswer",
-      icon: <ShortTextIcon className={classes.icon} />
+      name: "Multiple Choice",
+      type: "MultipleChoice",
+      icon: <RadioButtonIcon className={classes.icon} />
     },
     {
-      name: "Paragraph",
-      type: "Paragraph",
-      icon: <NotesIcon className={classes.icon} />
+      name: "Checkboxes",
+      type: "Checkboxes",
+      icon: <CheckboxIcon className={classes.icon} />
     }
   ];
   const startIndex = findTypeIndex(type);

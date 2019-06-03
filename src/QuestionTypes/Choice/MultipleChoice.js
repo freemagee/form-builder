@@ -12,17 +12,17 @@ import Other from "./Other";
 import { uuid as genUuid } from "../../Utils/Math";
 import { cloneArray } from "../../Utils/Array";
 import Footer from "./Shared/Footer";
+import QuestionChanger from "./Shared/QuestionChanger";
 // import CustomTheme from "../../Theme";
 import CustomStyles from "./Shared/Styles";
 
 const componentStyleOverrides = {
   ...CustomStyles
 };
-
 const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
-  const { uuid, hasFocus, wasFocused, remove, dupe } = props;
+  const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
   const classes = useStyles();
   const [state, setState] = useState({
     hasOther: false
@@ -86,6 +86,10 @@ function MultipleChoice(props) {
     );
   });
 
+  function handleChangeType(newType) {
+    changeType(newType, uuid);
+  }
+
   return (
     <Paper
       className={
@@ -95,6 +99,7 @@ function MultipleChoice(props) {
       }
       onClick={handleFocus}
     >
+      <QuestionChanger type="MultipleChoice" changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
           value={props.question}
