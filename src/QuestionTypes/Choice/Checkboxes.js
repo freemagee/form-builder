@@ -21,7 +21,7 @@ const componentStyleOverrides = {
 
 const useStyles = makeStyles(componentStyleOverrides);
 
-function MultipleChoice(props) {
+function Checkboxes(props) {
   const { uuid, hasFocus, wasFocused, remove, dupe } = props;
   const classes = useStyles();
   const [state, setState] = useState({
@@ -129,7 +129,7 @@ function MultipleChoice(props) {
   );
 }
 
-MultipleChoice.propTypes = {
+Checkboxes.propTypes = {
   uuid: PropTypes.string.isRequired,
   hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
@@ -139,4 +139,4 @@ MultipleChoice.propTypes = {
   description: PropTypes.string.isRequired
 };
 
-export default MultipleChoice;
+export default Checkboxes;

@@ -8,6 +8,7 @@ import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/Text/ShortAnswer";
 import Paragraph from "./QuestionTypes/Text/Paragraph";
 import MultipleChoice from "./QuestionTypes/Choice/MultipleChoice";
+import Checkboxes from "./QuestionTypes/Choice/Checkboxes";
 import CustomTheme from "./Theme";
 import { uuid as genUuid } from "./Utils/Math";
 import { cloneArray } from "./Utils/Array";
@@ -156,6 +157,10 @@ function App() {
       case "MultipleChoice":
         return (
           <MultipleChoice {...propsBootstrap} />
+        );
+      case "Checkboxes":
+        return (
+          <Checkboxes {...propsBootstrap} />
         );
       default:
         return <p>Error! No matching question type found</p>;

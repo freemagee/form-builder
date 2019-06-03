@@ -11,18 +11,19 @@ import Menu from "@material-ui/core/Menu";
 import RadioButtonIcon from "@material-ui/icons/RadioButtonChecked";
 import ShortTextIcon from "@material-ui/icons/ShortText";
 import NotesIcon from "@material-ui/icons/Notes";
-// App custom
+import CheckboxIcon from "@material-ui/icons/CheckBox";
 
 const componentStyleOverrides = {
   root: {
-    width: "100%",
+    width: "100%"
   }
 };
 const useStyles = makeStyles(componentStyleOverrides);
 const options = [
   { name: "Short Answer", type: "ShortAnswer" },
   { name: "Paragraph", type: "Paragraph" },
-  { name: "Multiple Choice", type: "MultipleChoice" }
+  { name: "Multiple Choice", type: "MultipleChoice" },
+  { name: "Checkboxes", type: "Checkboxes" }
 ];
 
 function QuestionTypeSelector(props) {
@@ -54,10 +55,13 @@ function QuestionTypeSelector(props) {
         icon = <ShortTextIcon />;
         break;
       case "Paragraph":
-          icon = <NotesIcon />;
-          break;
+        icon = <NotesIcon />;
+        break;
       case "MultipleChoice":
         icon = <RadioButtonIcon />;
+        break;
+      case "Checkboxes":
+        icon = <CheckboxIcon />;
         break;
       default:
         icon = null;
@@ -67,11 +71,9 @@ function QuestionTypeSelector(props) {
       <MenuItem
         key={option.name}
         selected={index === selectedIndex}
-        onClick={(event) => handleMenuItemClick(event, index)}
+        onClick={event => handleMenuItemClick(event, index)}
       >
-        <ListItemIcon>
-          {icon}
-        </ListItemIcon>
+        <ListItemIcon>{icon}</ListItemIcon>
         {option.name}
       </MenuItem>
     );

@@ -29,9 +29,14 @@ const Styles = {
   input: {
     marginTop: CustomTheme.spacing(1),
     marginBottom: CustomTheme.spacing(1),
+    width: "50%",
     "& .MuiInputBase-input": {
       fontSize: CustomTheme.typography.pxToRem(14)
     }
+  },
+  textInline: {
+    alignSelf: "center",
+    margin: "0 10px"
   },
   button: {
     marginLeft: CustomTheme.spacing(1),
