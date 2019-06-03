@@ -1,5 +1,6 @@
 // React & Material UI
 import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Box from "@material-ui/core/Box";
@@ -63,5 +64,12 @@ function AddOther(props) {
     </Box>
   );
 }
+
+AddOther.propTypes = {
+  type: PropTypes.string.isRequired,
+  newOption: PropTypes.func.isRequired,
+  other: PropTypes.func.isRequired,
+  hasOther: PropTypes.bool.isRequired,
+};
 
 export default AddOther;

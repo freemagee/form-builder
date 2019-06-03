@@ -127,7 +127,7 @@ function MultipleChoice(props) {
         )}
         <AddOther
           type={componentType}
-          new={handleAddNewOption}
+          newOption={handleAddNewOption}
           other={handleAddOther}
           hasOther={state.hasOther}
         />
