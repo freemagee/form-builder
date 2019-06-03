@@ -25,17 +25,21 @@ const questionTypes = [
   { name: "Multiple Choice", type: "MultipleChoice" },
   { name: "Checkboxes", type: "Checkboxes" }
 ];
+const questionObj = {
+  type: "ShortAnswer",
+  uuid: genUuid(),
+  active: false,
+  question: "",
+  description: "",
+  required: false,
+  sensitive: false,
+  data: {}
+};
 
 function App() {
   const classes = useStyles();
   const [questionList, setQuestionList] = useState([
-    {
-      type: "ShortAnswer",
-      uuid: genUuid(),
-      active: false,
-      question: "",
-      description: ""
-    }
+    questionObj
   ]);
   const [questionCount, setQuestionCount] = useState(1);
   const outsideClick = event => {
@@ -60,15 +64,14 @@ function App() {
     }
   };
   const handleNewQuestion = type => {
+    const newQuestionObj = {
+      ...questionObj,
+      type: type,
+      uuid: genUuid(),
+    };
     setQuestionList([
       ...questionList,
-      {
-        type: type,
-        uuid: genUuid(),
-        active: false,
-        question: "",
-        description: ""
-      }
+      newQuestionObj
     ]);
     setQuestionCount(questionCount => questionCount + 1);
   };
@@ -116,8 +119,6 @@ function App() {
     setQuestionList(questionListClone);
   };
   const handleQuestionValueChange = (name, value, componentId) => {
-    //console.log(event.target.value, componentId);
-
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
       question => question.uuid === componentId
