@@ -14,7 +14,7 @@ import DuplicateIcon from "@material-ui/icons/AddToPhotos";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
 // App custom
-import CustomTheme from "../../Theme";
+import CustomTheme from "../../../Theme";
 
 // 'Extend' the default styles
 const componentStyleOverrides = {

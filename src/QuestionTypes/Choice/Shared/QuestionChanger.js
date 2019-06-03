@@ -10,7 +10,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ShortTextIcon from "@material-ui/icons/ShortText";
 import NotesIcon from "@material-ui/icons/Notes";
 // App custom
-import CustomTheme from "../../Theme";
+import CustomTheme from "../../../Theme";
 
 const componentStyleOverrides = {
   container: {

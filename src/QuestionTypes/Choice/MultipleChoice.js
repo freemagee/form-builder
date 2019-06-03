@@ -11,7 +11,7 @@ import AddOther from "./AddOther";
 import Other from "./Other";
 import { uuid as genUuid } from "../../Utils/Math";
 import { cloneArray } from "../../Utils/Array";
-import Footer from "../Shared/Footer";
+import Footer from "./Shared/Footer";
 import CustomTheme from "../../Theme";
 
 const componentStyleOverrides = {

@@ -5,9 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 // App custom
 import QuestionTypeSelector from "./QuestionTypeSelector";
-import ShortAnswer from "./QuestionTypes/ShortAnswer";
-import Paragraph from "./QuestionTypes/Paragraph";
-import MultipleChoice from "./QuestionTypes/MultipleChoice/";
+import ShortAnswer from "./QuestionTypes/Text/ShortAnswer";
+import Paragraph from "./QuestionTypes/Text/Paragraph";
+import MultipleChoice from "./QuestionTypes/Choice/MultipleChoice";
 import CustomTheme from "./Theme";
 import { uuid as genUuid } from "./Utils/Math";
 import { cloneArray } from "./Utils/Array";

@@ -9,7 +9,6 @@ import Input from "@material-ui/core/Input";
 // App custom
 import Footer from "./Shared/Footer";
 import QuestionChanger from "./Shared/QuestionChanger";
-// import CustomTheme from "../Theme";
 import CustomStyles from "./Shared/Styles";
 
 const componentStyleOverrides = {

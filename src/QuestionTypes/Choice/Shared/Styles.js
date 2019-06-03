@@ -1,4 +1,4 @@
-import CustomTheme from "../../Theme";
+import CustomTheme from "../../../Theme";
 
 const Styles = {
   title: {
