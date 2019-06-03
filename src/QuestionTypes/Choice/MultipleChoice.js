@@ -23,6 +23,7 @@ const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
   const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
+  const componentType = "MultipleChoice";
   const classes = useStyles();
   const [state, setState] = useState({
     hasOther: false
@@ -77,6 +78,7 @@ function MultipleChoice(props) {
   const renderOptionsList = options.map(option => {
     return (
       <Option
+        type={componentType}
         value={option.value}
         key={option.uuid}
         uuid={option.uuid}
@@ -99,7 +101,7 @@ function MultipleChoice(props) {
       }
       onClick={handleFocus}
     >
-      <QuestionChanger type="MultipleChoice" changeType={handleChangeType} />
+      <QuestionChanger type={componentType} changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
           value={props.question}
@@ -124,6 +126,7 @@ function MultipleChoice(props) {
           <Other remove={() => setState({ ...state, hasOther: false })} />
         )}
         <AddOther
+          type={componentType}
           new={handleAddNewOption}
           other={handleAddOther}
           hasOther={state.hasOther}

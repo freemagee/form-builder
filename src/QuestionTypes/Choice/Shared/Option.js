@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Box from "@material-ui/core/Box";
 import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -34,12 +35,17 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Option(props) {
-  const {value, uuid, set, remove} = props;
+  const {type, value, uuid, set, remove} = props;
   const classes = useStyles();
 
   return (
     <Box className={classes.optionContainer}>
-      <Checkbox color="default" disabled />
+      {type === "MultipleChoice" && (
+        <Radio color="default" disabled />
+      )}
+      {type === "Checkboxes" && (
+        <Checkbox color="default" disabled />
+      )}
       <TextField
         value={value}
         classes={{ root: classes.optionName }}
