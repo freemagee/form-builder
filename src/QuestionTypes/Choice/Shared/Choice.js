@@ -33,7 +33,7 @@ function Choice(props) {
   } = props;
   const classes = useStyles();
   const [state, setState] = useState({
-    hasOther: false
+    hasOther: core.additional.hasOther
   });
   const [options, setOptions] = useState([
     ...core.additional.options
@@ -100,8 +100,8 @@ function Choice(props) {
 
   useEffect(() => {
     // Update parent with this questions option values
-    changeOptions(options, core.id);
-  }, [options]);
+    changeOptions(options, state.hasOther, core.id);
+  }, [options, state.hasOther]);
 
   return (
     <Paper
@@ -139,14 +139,14 @@ function Choice(props) {
           fullWidth
         />
         {renderOptionsList}
-        {state.hasOther && (
+        {core.additional.hasOther && (
           <Other remove={() => setState({ ...state, hasOther: false })} type={core.type} />
         )}
         <AddOther
           type={core.type}
           newOption={handleAddNewOption}
           other={handleAddOther}
-          hasOther={state.hasOther}
+          hasOther={core.additional.hasOther}
         />
         <Footer remove={remove} dupe={dupe} id={core.id} required={core.required} sensitive={core.sensitive} change={handleChangeValue} />
       </form>

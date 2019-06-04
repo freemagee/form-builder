@@ -46,7 +46,8 @@ const questionObj = {
         value: "Option 1",
         id: genUuid()
       }
-    ]
+    ],
+    hasOther: false
   }
 };
 
@@ -140,15 +141,18 @@ function App() {
     questionListClone[index] = questionClone;
     setQuestionList(questionListClone);
   };
-  const handleChoiceOptions = (newOptions, componentId) => {
+  const handleChoiceOptions = (newOptions, hasOther, componentId) => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
       question => question.id === componentId
     );
     const questionClone = Object.assign({}, questionListClone[index]);
+    const additionalClone = Object.assign({}, questionListClone[index].additional)
 
     // Make adjustments to the cloned question obj
-    questionClone.additional.options = newOptions;
+    additionalClone.options = newOptions;
+    additionalClone.hasOther = hasOther;
+    questionClone.additional = additionalClone;
     // Replace the original question with the clone question
     questionListClone[index] = questionClone;
     setQuestionList(questionListClone);
