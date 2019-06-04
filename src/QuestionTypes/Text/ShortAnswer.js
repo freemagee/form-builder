@@ -20,34 +20,26 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function ShortAnswer(props) {
-  const { uuid, hasFocus, wasFocused, remove, dupe, changeType, question, description, changeQuestionValue } = props;
+  const { core, wasFocused, remove, dupe, changeQuestionValue, changeType } = props;
   const classes = useStyles();
-  const handleQuestionChange = event => {
-    event.stopPropagation();
-    if (event.target.value !== question) {
-      changeQuestionValue(event.target.name, event.target.value, uuid);
-    }
-  };
-  const handleDescriptionChange = event => {
-    event.stopPropagation();
-    if (event.target.value !== description) {
-      changeQuestionValue(event.target.name, event.target.value, uuid);
-    }
-  };
+
+  function handleChangeValue(name, value) {
+    changeQuestionValue(name, value, core.id);
+  }
 
   function handleFocus(event) {
     event.stopPropagation();
-    wasFocused(uuid);
+    wasFocused(core.id);
   }
 
   function handleChangeType(newType) {
-    changeType(newType, uuid);
+    changeType(newType, core.id);
   }
 
   return (
     <Paper
       className={
-        hasFocus === true
+        core.hasFocus === true
           ? [classes.paper, classes.paperActive].join(" ")
           : classes.paper
       }
@@ -57,21 +49,21 @@ function ShortAnswer(props) {
       <form className={classes.form} noValidate>
         <TextField
           name="question"
-          defaultValue={question}
+          defaultValue={core.question}
           id="question"
           classes={{ root: classes.title }}
           label="Question"
-          onBlur={handleQuestionChange}
+          onBlur={(event) => handleChangeValue(event.target.name, event.target.value)}
           required
           fullWidth
           autoFocus
         />
         <TextField
           name="description"
-          defaultValue={description}
+          defaultValue={core.description}
           id="description"
           label="Description (optional)"
-          onBlur={handleDescriptionChange}
+          onBlur={(event) => handleChangeValue(event.target.name, event.target.value)}
           margin="normal"
           fullWidth
         />
@@ -83,21 +75,19 @@ function ShortAnswer(props) {
             "aria-label": "Short answer text"
           }}
         />
-        <Footer remove={remove} dupe={dupe} uuid={uuid} />
+        <Footer remove={remove} dupe={dupe} id={core.id} required={core.required} sensitive={core.sensitive} change={handleChangeValue} />
       </form>
     </Paper>
   );
 }
 
 ShortAnswer.propTypes = {
-  uuid: PropTypes.string.isRequired,
-  hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
   dupe: PropTypes.func.isRequired,
   changeType: PropTypes.func.isRequired,
-  question: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  changeQuestionValue: PropTypes.func.isRequired,
+  core: PropTypes.object.isRequired
 };
 
 export default ShortAnswer;

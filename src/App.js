@@ -34,13 +34,13 @@ const questionTypes = [
 ];
 const questionObj = {
   type: "ShortAnswer",
-  uuid: genUuid(),
+  id: genUuid(),
   active: false,
   question: "",
   description: "",
   required: false,
   sensitive: false,
-  data: {}
+  additional: {}
 };
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
   const questionIsActive = componentId => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
-      question => question.uuid === componentId
+      question => question.id === componentId
     );
 
     if (index !== -1) {
@@ -74,7 +74,7 @@ function App() {
     const newQuestionObj = {
       ...questionObj,
       type: type,
-      uuid: genUuid(),
+      id: genUuid(),
     };
     setQuestionList([
       ...questionList,
@@ -85,7 +85,7 @@ function App() {
   const handleRemoveQuestion = componentId => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
-      question => question.uuid === componentId
+      question => question.id === componentId
     );
 
     if (index !== -1) {
@@ -99,12 +99,12 @@ function App() {
   const handleDupeQuestion = componentId => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
-      question => question.uuid === componentId
+      question => question.id === componentId
     );
     const questionClone = Object.assign({}, questionListClone[index]);
 
     // Make adjustments to the cloned question obj
-    questionClone.uuid = genUuid();
+    questionClone.id = genUuid();
     questionClone.active = false;
     // Insert the question clone into the list clone
     questionListClone.splice(index + 1, 0, questionClone);
@@ -115,7 +115,7 @@ function App() {
   const handleChangeType = (newType, componentId) => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
-      question => question.uuid === componentId
+      question => question.id === componentId
     );
     const questionClone = Object.assign({}, questionListClone[index]);
 
@@ -128,7 +128,7 @@ function App() {
   const handleQuestionValueChange = (name, value, componentId) => {
     const questionListClone = cloneArray(questionList);
     const index = questionListClone.findIndex(
-      question => question.uuid === componentId
+      question => question.id === componentId
     );
     const questionClone = Object.assign({}, questionListClone[index]);
 
@@ -140,16 +140,15 @@ function App() {
   };
   const questionTypeList = questionList.map(question => {
     const propsBootstrap = {
-      key: question.uuid,
-      uuid: question.uuid,
-      hasFocus: question.active,
+      key: question.id,
       wasFocused: questionIsActive,
       remove: handleRemoveQuestion,
       dupe: handleDupeQuestion,
       changeQuestionValue: handleQuestionValueChange,
       changeType: handleChangeType,
-      question: question.question,
-      description: question.description,
+      core: {
+        ...question
+      }
     };
 
     switch (question.type) {
