@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 // App custom
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import ShortAnswer from "./QuestionTypes/Text/ShortAnswer";
@@ -16,7 +18,12 @@ import { cloneArray } from "./Utils/Array";
 const componentStyleOverrides = {
   container: {
     paddingTop: CustomTheme.spacing(8)
-  }
+  },
+  paper: {
+    marginTop: CustomTheme.spacing(4),
+    padding: CustomTheme.spacing(4),
+    borderLeft: `3px solid transparent`
+  },
 };
 const useStyles = makeStyles(componentStyleOverrides);
 const questionTypes = [
@@ -81,7 +88,7 @@ function App() {
       question => question.uuid === componentId
     );
 
-    if (questionCount > 1 && index !== -1) {
+    if (index !== -1) {
       questionListClone.splice(index, 1);
       setQuestionList(questionListClone);
       setQuestionCount(questionCount => questionCount - 1);
@@ -166,6 +173,14 @@ function App() {
         return <p>Error! No matching question type found</p>;
     }
   });
+  const NoQuestions = () => {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h4">No questions!</Typography>
+        <Typography>Please add a question type to continue</Typography>
+      </Paper>
+    )
+  };
 
   return (
     <div onClick={outsideClick}>
@@ -175,6 +190,9 @@ function App() {
       >
         <QuestionTypeSelector types={questionTypes} add={handleNewQuestion} />
         {questionTypeList}
+        {questionCount === 0 && (
+          <NoQuestions />
+        )}
       </Container>
     </div>
   );
