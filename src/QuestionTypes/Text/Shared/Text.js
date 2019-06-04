@@ -38,7 +38,7 @@ function Paragraph(props) {
   return (
     <Paper
       className={
-        core.hasFocus === true
+        core.active === true
           ? [classes.paper, classes.paperActive].join(" ")
           : classes.paper
       }
