@@ -1,5 +1,5 @@
 // React & Material UI
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
@@ -28,17 +28,15 @@ function Choice(props) {
     remove,
     dupe,
     changeQuestionValue,
-    changeType
+    changeType,
+    changeOptions,
   } = props;
   const classes = useStyles();
   const [state, setState] = useState({
     hasOther: false
   });
   const [options, setOptions] = useState([
-    {
-      value: "Option 1",
-      id: genUuid()
-    }
+    ...core.additional.options
   ]);
   const [count, setOptionsCount] = useState(1);
   const handleAddNewOption = () => {
@@ -100,10 +98,15 @@ function Choice(props) {
     changeType(newType, core.id);
   }
 
+  useEffect(() => {
+    // Update parent with this questions option values
+    changeOptions(options, core.id);
+  }, [options]);
+
   return (
     <Paper
       className={
-        core.hasFocus === true
+        core.active === true
           ? [classes.paper, classes.paperActive].join(" ")
           : classes.paper
       }

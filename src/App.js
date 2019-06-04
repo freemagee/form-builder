@@ -23,7 +23,7 @@ const componentStyleOverrides = {
     marginTop: CustomTheme.spacing(4),
     padding: CustomTheme.spacing(4),
     borderLeft: `3px solid transparent`
-  },
+  }
 };
 const useStyles = makeStyles(componentStyleOverrides);
 const questionTypes = [
@@ -40,14 +40,19 @@ const questionObj = {
   description: "",
   required: false,
   sensitive: false,
-  additional: {}
+  additional: {
+    options: [
+      {
+        value: "Option 1",
+        id: genUuid()
+      }
+    ]
+  }
 };
 
 function App() {
   const classes = useStyles();
-  const [questionList, setQuestionList] = useState([
-    questionObj
-  ]);
+  const [questionList, setQuestionList] = useState([questionObj]);
   const [questionCount, setQuestionCount] = useState(1);
   const outsideClick = event => {
     event.preventDefault();
@@ -74,12 +79,9 @@ function App() {
     const newQuestionObj = {
       ...questionObj,
       type: type,
-      id: genUuid(),
+      id: genUuid()
     };
-    setQuestionList([
-      ...questionList,
-      newQuestionObj
-    ]);
+    setQuestionList([...questionList, newQuestionObj]);
     setQuestionCount(questionCount => questionCount + 1);
   };
   const handleRemoveQuestion = componentId => {
@@ -138,6 +140,19 @@ function App() {
     questionListClone[index] = questionClone;
     setQuestionList(questionListClone);
   };
+  const handleChoiceOptions = (newOptions, componentId) => {
+    const questionListClone = cloneArray(questionList);
+    const index = questionListClone.findIndex(
+      question => question.id === componentId
+    );
+    const questionClone = Object.assign({}, questionListClone[index]);
+
+    // Make adjustments to the cloned question obj
+    questionClone.additional.options = newOptions;
+    // Replace the original question with the clone question
+    questionListClone[index] = questionClone;
+    setQuestionList(questionListClone);
+  };
   const questionTypeList = questionList.map(question => {
     const propsBootstrap = {
       key: question.id,
@@ -153,20 +168,19 @@ function App() {
 
     switch (question.type) {
       case "ShortAnswer":
-        return (
-          <ShortAnswer {...propsBootstrap} />
-        );
+        return <ShortAnswer {...propsBootstrap} />;
       case "Paragraph":
-        return (
-          <Paragraph {...propsBootstrap} />
-        );
+        return <Paragraph {...propsBootstrap} />;
       case "MultipleChoice":
         return (
-          <MultipleChoice {...propsBootstrap} />
+          <MultipleChoice
+            {...propsBootstrap}
+            changeOptions={handleChoiceOptions}
+          />
         );
       case "Checkboxes":
         return (
-          <Checkboxes {...propsBootstrap} />
+          <Checkboxes {...propsBootstrap} changeOptions={handleChoiceOptions} />
         );
       default:
         return <p>Error! No matching question type found</p>;
@@ -178,20 +192,15 @@ function App() {
         <Typography variant="h4">No questions!</Typography>
         <Typography>Please add a question type to continue</Typography>
       </Paper>
-    )
+    );
   };
 
   return (
     <div onClick={outsideClick}>
-      <Container
-        className={classes.container}
-        maxWidth="md"
-      >
+      <Container className={classes.container} maxWidth="md">
         <QuestionTypeSelector types={questionTypes} add={handleNewQuestion} />
         {questionTypeList}
-        {questionCount === 0 && (
-          <NoQuestions />
-        )}
+        {questionCount === 0 && <NoQuestions />}
       </Container>
     </div>
   );
