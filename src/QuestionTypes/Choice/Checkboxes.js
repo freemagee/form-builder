@@ -22,7 +22,17 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Checkboxes(props) {
-  const { uuid, hasFocus, wasFocused, remove, dupe, changeType } = props;
+  const {
+    uuid,
+    hasFocus,
+    wasFocused,
+    remove,
+    dupe,
+    changeType,
+    question,
+    description,
+    changeQuestionValue
+  } = props;
   const componentType = "Checkboxes";
   const classes = useStyles();
   const [state, setState] = useState({
@@ -72,8 +82,17 @@ function Checkboxes(props) {
       setOptions(optionsClone);
     }
   };
-  const handleChange = name => event => {
-    props.changeQuestionValue(name, event.target.value, uuid);
+  const handleQuestionChange = event => {
+    event.stopPropagation();
+    if (event.target.value !== question) {
+      changeQuestionValue(event.target.name, event.target.value, uuid);
+    }
+  };
+  const handleDescriptionChange = event => {
+    event.stopPropagation();
+    if (event.target.value !== description) {
+      changeQuestionValue(event.target.name, event.target.value, uuid);
+    }
   };
   const renderOptionsList = options.map(option => {
     return (
@@ -104,20 +123,22 @@ function Checkboxes(props) {
       <QuestionChanger type={componentType} changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
-          value={props.question}
+          name="question"
+          defaultValue={question}
           id="question"
           classes={{ root: classes.title }}
           label="Question"
-          onChange={handleChange("question")}
+          onBlur={handleQuestionChange}
           required
           fullWidth
           autoFocus
         />
         <TextField
-          value={props.description}
+          name="description"
+          defaultValue={description}
           id="description"
           label="Description (optional)"
-          onChange={handleChange("description")}
+          onBlur={handleDescriptionChange}
           margin="normal"
           fullWidth
         />
