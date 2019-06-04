@@ -35,7 +35,7 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Option(props) {
-  const {type, value, uuid, set, remove} = props;
+  const {type, value, id, set, remove} = props;
   const classes = useStyles();
 
   return (
@@ -50,12 +50,12 @@ function Option(props) {
         defaultValue={value}
         classes={{ root: classes.optionName }}
         placeholder="Option 1"
-        onBlur={(event) => set(event.target.value, uuid)}
+        onBlur={(event) => set(event.target.value, id)}
       />
       <IconButton
         className={classes.button}
         aria-label="Remove option"
-        onClick={() => remove(uuid)}
+        onClick={() => remove(id)}
       >
         <CloseIcon />
       </IconButton>

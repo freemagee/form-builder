@@ -3,6 +3,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
@@ -28,18 +29,19 @@ const componentStyleOverrides = {
     }
   },
   button: {
-    "&:hover": {backgroundColor: "transparent"}
-  },
+    "&:hover": { backgroundColor: "transparent" }
+  }
 };
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Other(props) {
-  const [remove] = [props.remove];
+  const { type, remove } = props;
   const classes = useStyles();
 
   return (
     <Box className={classes.optionContainer}>
-      <Radio color="default" disabled />
+      {type === "MultipleChoice" && <Radio color="default" disabled />}
+      {type === "Checkboxes" && <Checkbox color="default" disabled />}
       <TextField
         value="Other..."
         classes={{ root: classes.optionName }}

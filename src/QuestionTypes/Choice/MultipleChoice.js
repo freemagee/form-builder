@@ -23,17 +23,13 @@ const useStyles = makeStyles(componentStyleOverrides);
 
 function MultipleChoice(props) {
   const {
-    uuid,
-    hasFocus,
+    core,
     wasFocused,
     remove,
     dupe,
-    changeType,
-    question,
-    description,
-    changeQuestionValue
+    changeQuestionValue,
+    changeType
   } = props;
-  const componentType = "MultipleChoice";
   const classes = useStyles();
   const [state, setState] = useState({
     hasOther: false
@@ -41,20 +37,16 @@ function MultipleChoice(props) {
   const [options, setOptions] = useState([
     {
       value: "Option 1",
-      uuid: genUuid()
+      id: genUuid()
     }
   ]);
   const [count, setOptionsCount] = useState(1);
-  const handleFocus = event => {
-    event.stopPropagation();
-    wasFocused(uuid);
-  };
   const handleAddNewOption = () => {
     setOptions([
       ...options,
       {
         value: `Option ${count + 1}`,
-        uuid: genUuid()
+        id: genUuid()
       }
     ]);
     setOptionsCount(count => count + 1);
@@ -62,9 +54,9 @@ function MultipleChoice(props) {
   const handleAddOther = () => {
     setState({ ...state, hasOther: true });
   };
-  const handleRemoveOption = uuid => {
+  const handleRemoveOption = id => {
     const optionsClone = cloneArray(options);
-    const index = optionsClone.findIndex(option => option["uuid"] === uuid);
+    const index = optionsClone.findIndex(option => option["id"] === id);
 
     if (count > 1 && index !== -1) {
       optionsClone.splice(index, 1);
@@ -72,9 +64,9 @@ function MultipleChoice(props) {
       setOptionsCount(count => count - 1);
     }
   };
-  const handleSetOptionValue = (value, uuid) => {
+  const handleSetOptionValue = (value, id) => {
     const optionsClone = cloneArray(options);
-    const index = optionsClone.findIndex(option => option["uuid"] === uuid);
+    const index = optionsClone.findIndex(option => option["id"] === id);
     const currentValue = optionsClone[index].value;
 
     if (currentValue !== value && index !== -1) {
@@ -82,90 +74,90 @@ function MultipleChoice(props) {
       setOptions(optionsClone);
     }
   };
-  const handleQuestionChange = event => {
-    event.stopPropagation();
-    if (event.target.value !== question) {
-      changeQuestionValue(event.target.name, event.target.value, uuid);
-    }
-  };
-  const handleDescriptionChange = event => {
-    event.stopPropagation();
-    if (event.target.value !== description) {
-      changeQuestionValue(event.target.name, event.target.value, uuid);
-    }
-  };
   const renderOptionsList = options.map(option => {
     return (
       <Option
-        type={componentType}
+        type={core.type}
         value={option.value}
-        key={option.uuid}
-        uuid={option.uuid}
+        key={option.id}
+        id={option.id}
         set={handleSetOptionValue}
         remove={handleRemoveOption}
       />
     );
   });
 
+  function handleChangeValue(name, value) {
+    changeQuestionValue(name, value, core.id);
+  }
+
+  function handleFocus(event) {
+    event.stopPropagation();
+    wasFocused(core.id);
+  }
+
   function handleChangeType(newType) {
-    changeType(newType, uuid);
+    changeType(newType, core.id);
   }
 
   return (
     <Paper
       className={
-        hasFocus === true
+        core.hasFocus === true
           ? [classes.paper, classes.paperActive].join(" ")
           : classes.paper
       }
       onClick={handleFocus}
     >
-      <QuestionChanger type={componentType} changeType={handleChangeType} />
+      <QuestionChanger type={core.type} changeType={handleChangeType} />
       <form className={classes.form} noValidate>
         <TextField
           name="question"
-          defaultValue={question}
+          defaultValue={core.question}
           id="question"
           classes={{ root: classes.title }}
           label="Question"
-          onBlur={handleQuestionChange}
+          onBlur={event =>
+            handleChangeValue(event.target.name, event.target.value)
+          }
           required
           fullWidth
           autoFocus
         />
         <TextField
           name="description"
-          defaultValue={description}
+          defaultValue={core.description}
           id="description"
           label="Description (optional)"
-          onBlur={handleDescriptionChange}
+          onBlur={event =>
+            handleChangeValue(event.target.name, event.target.value)
+          }
           margin="normal"
           fullWidth
         />
         {renderOptionsList}
         {state.hasOther && (
-          <Other remove={() => setState({ ...state, hasOther: false })} />
+          <Other remove={() => setState({ ...state, hasOther: false })} type={core.type} />
         )}
         <AddOther
-          type={componentType}
+          type={core.type}
           newOption={handleAddNewOption}
           other={handleAddOther}
           hasOther={state.hasOther}
         />
-        <Footer remove={remove} dupe={dupe} uuid={uuid} />
+        <Footer remove={remove} dupe={dupe} id={core.id} required={core.required} sensitive={core.sensitive} change={handleChangeValue} />
       </form>
     </Paper>
   );
 }
 
 MultipleChoice.propTypes = {
-  uuid: PropTypes.string.isRequired,
-  hasFocus: PropTypes.bool.isRequired,
   wasFocused: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
   dupe: PropTypes.func.isRequired,
-  question: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  changeType: PropTypes.func.isRequired,
+  changeQuestionValue: PropTypes.func.isRequired,
+  core: PropTypes.object.isRequired
 };
 
 export default MultipleChoice;

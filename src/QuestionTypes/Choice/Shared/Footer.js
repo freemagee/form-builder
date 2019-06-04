@@ -37,28 +37,20 @@ const componentStyleOverrides = {
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Footer(props) {
-  const { uuid, remove, dupe } = props;
+  const { id, sensitive, required, remove, dupe, change } = props;
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    required: false,
-    sensitive: false
-  });
-  const handleChange = name => event => {
-    if (name !== "required") {
-      const current = state[name];
-
-      setState({ ...state, [name]: !current });
-    } else {
-      setState({ ...state, [name]: event.target.checked });
-    }
+  // TODO: Find out why event.propagation must be used, otherwise the parent state never changes. Possibly a bug?
+  const handleChange = (event, name, value) => {
+    event.stopPropagation();
+    change(name, value);
   };
   const handleRemoveQuestion = event => {
     event.stopPropagation();
-    remove(uuid);
+    remove(id);
   };
   const handleDupeQuestion = event => {
     event.stopPropagation();
-    dupe(uuid);
+    dupe(id);
   };
 
   return (
@@ -74,12 +66,13 @@ function Footer(props) {
       </Tooltip>
       <Tooltip title="Sensitive answer">
         <IconButton
+          name="sensitive"
           className={classes.button}
           aria-label="Sensitive answer"
-          onClick={handleChange("sensitive")}
+          onClick={(event) => handleChange(event, event.currentTarget.name, !sensitive)}
         >
-          {state.sensitive && <LockIcon color="secondary" />}
-          {!state.sensitive && <LockOpenIcon />}
+          {sensitive && <LockIcon color="secondary" />}
+          {!sensitive && <LockOpenIcon />}
         </IconButton>
       </Tooltip>
       <Tooltip title="Delete">
@@ -96,9 +89,10 @@ function Footer(props) {
         value="required"
         control={
           <Switch
+            name="required"
             color="secondary"
-            checked={state.required}
-            onChange={handleChange("required")}
+            checked={required}
+            onChange={(event) => handleChange(event, event.target.name, event.target.checked)}
             value="required"
           />
         }
@@ -110,9 +104,12 @@ function Footer(props) {
 }
 
 Footer.propTypes = {
-  uuid: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  required: PropTypes.bool.isRequired,
+  sensitive: PropTypes.bool.isRequired,
   remove: PropTypes.func.isRequired,
-  dupe: PropTypes.func.isRequired
+  dupe: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
 };
 
 export default Footer;
