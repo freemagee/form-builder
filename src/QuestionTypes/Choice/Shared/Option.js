@@ -3,8 +3,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 // Material UI components
 import Box from "@material-ui/core/Box";
-import Checkbox from '@material-ui/core/Checkbox';
-import Radio from '@material-ui/core/Radio';
+import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -14,7 +14,7 @@ import CustomTheme from "../../../Theme";
 const componentStyleOverrides = {
   optionContainer: {
     display: "flex",
-    marginTop: CustomTheme.spacing(2)
+    marginTop: CustomTheme.spacing(1)
   },
   optionName: {
     flex: "1 0 auto",
@@ -29,28 +29,26 @@ const componentStyleOverrides = {
     }
   },
   button: {
-    "&:hover": {backgroundColor: "transparent"}
-  },
+    paddingTop: 0,
+    paddingBottom: 0,
+    "&:hover": { backgroundColor: "transparent" }
+  }
 };
 const useStyles = makeStyles(componentStyleOverrides);
 
 function Option(props) {
-  const {type, value, id, set, remove} = props;
+  const { type, value, id, set, remove } = props;
   const classes = useStyles();
 
   return (
     <Box className={classes.optionContainer}>
-      {type === "MultipleChoice" && (
-        <Radio color="default" disabled />
-      )}
-      {type === "Checkboxes" && (
-        <Checkbox color="default" disabled />
-      )}
+      {type === "MultipleChoice" && <Radio color="default" disabled />}
+      {type === "Checkboxes" && <Checkbox color="default" disabled />}
       <TextField
         defaultValue={value}
         classes={{ root: classes.optionName }}
         placeholder="Option 1"
-        onBlur={(event) => set(event.target.value, id)}
+        onBlur={event => set(event.target.value, id)}
       />
       <IconButton
         className={classes.button}

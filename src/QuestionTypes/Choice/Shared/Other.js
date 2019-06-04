@@ -14,7 +14,7 @@ import CustomTheme from "../../../Theme";
 const componentStyleOverrides = {
   optionContainer: {
     display: "flex",
-    marginTop: CustomTheme.spacing(2)
+    marginTop: CustomTheme.spacing(1)
   },
   optionName: {
     flex: "1 0 auto",
@@ -29,6 +29,8 @@ const componentStyleOverrides = {
     }
   },
   button: {
+    paddingTop: 0,
+    paddingBottom: 0,
     "&:hover": { backgroundColor: "transparent" }
   }
 };

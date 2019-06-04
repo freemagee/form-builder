@@ -15,10 +15,9 @@ import CustomTheme from "../../../Theme";
 const componentStyleOverrides = {
   optionContainer: {
     display: "flex",
-    marginTop: CustomTheme.spacing(2)
+    marginTop: CustomTheme.spacing(1)
   },
-  optionName: {
-    flex: "1 0 auto",
+  optionAdd: {
     "& .MuiInputBase-root": {
       marginTop: "10px"
     },
@@ -26,7 +25,8 @@ const componentStyleOverrides = {
       borderBottomColor: CustomTheme.palette.grey[300]
     },
     "& .MuiInputBase-input": {
-      paddingTop: 0
+      paddingTop: 0,
+      color: CustomTheme.palette.grey[500],
     }
   },
   textInline: {
@@ -45,9 +45,12 @@ function AddOther(props) {
       {type === "MultipleChoice" && <Radio color="default" disabled />}
       {type === "Checkboxes" && <Checkbox color="default" disabled />}
       <TextField
+        defaultValue="Add option"
         classes={{ root: classes.optionAdd }}
-        placeholder="Add option"
         onClick={newOption}
+        InputProps={{
+          readOnly: true,
+        }}
       />
       {hasOther === false && (
         <Typography className={classes.textInline}>or</Typography>
