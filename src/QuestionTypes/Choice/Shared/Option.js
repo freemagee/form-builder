@@ -47,10 +47,10 @@ function Option(props) {
         <Checkbox color="default" disabled />
       )}
       <TextField
-        value={value}
+        defaultValue={value}
         classes={{ root: classes.optionName }}
         placeholder="Option 1"
-        onChange={(event) => set(event.target.value, uuid)}
+        onBlur={(event) => set(event.target.value, uuid)}
       />
       <IconButton
         className={classes.button}
