@@ -69,7 +69,9 @@ function Footer(props) {
           name="sensitive"
           className={classes.button}
           aria-label="Sensitive answer"
-          onClick={(event) => handleChange(event, event.currentTarget.name, !sensitive)}
+          onClick={event =>
+            handleChange(event, event.currentTarget.name, !sensitive)
+          }
         >
           {sensitive && <LockIcon color="secondary" />}
           {!sensitive && <LockOpenIcon />}
@@ -92,7 +94,9 @@ function Footer(props) {
             name="required"
             color="secondary"
             checked={required}
-            onChange={(event) => handleChange(event, event.target.name, event.target.checked)}
+            onChange={event =>
+              handleChange(event, event.target.name, event.target.checked)
+            }
             value="required"
           />
         }
@@ -109,7 +113,7 @@ Footer.propTypes = {
   sensitive: PropTypes.bool.isRequired,
   remove: PropTypes.func.isRequired,
   dupe: PropTypes.func.isRequired,
-  change: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired
 };
 
 export default Footer;

@@ -26,7 +26,7 @@ const componentStyleOverrides = {
     },
     "& .MuiInputBase-input": {
       paddingTop: 0,
-      color: CustomTheme.palette.grey[500],
+      color: CustomTheme.palette.grey[500]
     }
   },
   textInline: {
@@ -49,7 +49,7 @@ function AddOther(props) {
         classes={{ root: classes.optionAdd }}
         onClick={newOption}
         InputProps={{
-          readOnly: true,
+          readOnly: true
         }}
       />
       {hasOther === false && (

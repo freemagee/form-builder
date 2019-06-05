@@ -147,7 +147,10 @@ function App() {
       question => question.id === componentId
     );
     const questionClone = Object.assign({}, questionListClone[index]);
-    const additionalClone = Object.assign({}, questionListClone[index].additional)
+    const additionalClone = Object.assign(
+      {},
+      questionListClone[index].additional
+    );
 
     // Make adjustments to the cloned question obj
     additionalClone.options = newOptions;

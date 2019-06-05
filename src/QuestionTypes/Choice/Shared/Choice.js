@@ -29,15 +29,13 @@ function Choice(props) {
     dupe,
     changeQuestionValue,
     changeType,
-    changeOptions,
+    changeOptions
   } = props;
   const classes = useStyles();
   const [state, setState] = useState({
     hasOther: core.additional.hasOther
   });
-  const [options, setOptions] = useState([
-    ...core.additional.options
-  ]);
+  const [options, setOptions] = useState([...core.additional.options]);
   const [count, setOptionsCount] = useState(1);
   const handleAddNewOption = () => {
     setOptions([
@@ -101,7 +99,7 @@ function Choice(props) {
   useEffect(() => {
     // Update parent with this questions option values
     changeOptions(options, state.hasOther, core.id);
-  }, [options, state.hasOther]);
+  }, [changeOptions, core.id, options, state.hasOther]);
 
   return (
     <Paper
@@ -140,7 +138,10 @@ function Choice(props) {
         />
         {renderOptionsList}
         {core.additional.hasOther && (
-          <Other remove={() => setState({ ...state, hasOther: false })} type={core.type} />
+          <Other
+            remove={() => setState({ ...state, hasOther: false })}
+            type={core.type}
+          />
         )}
         <AddOther
           type={core.type}
@@ -148,7 +149,14 @@ function Choice(props) {
           other={handleAddOther}
           hasOther={core.additional.hasOther}
         />
-        <Footer remove={remove} dupe={dupe} id={core.id} required={core.required} sensitive={core.sensitive} change={handleChangeValue} />
+        <Footer
+          remove={remove}
+          dupe={dupe}
+          id={core.id}
+          required={core.required}
+          sensitive={core.sensitive}
+          change={handleChangeValue}
+        />
       </form>
     </Paper>
   );

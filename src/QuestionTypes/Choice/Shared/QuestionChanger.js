@@ -15,7 +15,7 @@ import CustomTheme from "../../../Theme";
 const componentStyleOverrides = {
   container: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "flex-end"
   },
   button: {},
   icon: {
@@ -24,7 +24,7 @@ const componentStyleOverrides = {
   menuItem: {
     fontSize: CustomTheme.typography.pxToRem(14),
     fontWeight: CustomTheme.typography.fontWeightMedium,
-    textTransform: "uppercase",
+    textTransform: "uppercase"
   },
   listItem: {
     minWidth: "auto"
@@ -58,16 +58,16 @@ function QuestionTypeChanger(props) {
         onClick={event => handleMenuItemClick(event, index)}
         classes={{ root: classes.menuItem }}
       >
-        <ListItemIcon classes={{ root: classes.listItem }}>{option.icon}</ListItemIcon>
+        <ListItemIcon classes={{ root: classes.listItem }}>
+          {option.icon}
+        </ListItemIcon>
         {option.name}
       </MenuItem>
     );
   });
 
   function findTypeIndex(needle) {
-    return options.findIndex(
-      option => option.type === needle
-    );
+    return options.findIndex(option => option.type === needle);
   }
 
   function handleClickListItem(event) {
@@ -78,7 +78,7 @@ function QuestionTypeChanger(props) {
     event.stopPropagation();
     setSelectedIndex(index);
     setAnchorEl(null);
-    changeType(options[index].type)
+    changeType(options[index].type);
   }
 
   function handleClose() {
@@ -109,7 +109,7 @@ function QuestionTypeChanger(props) {
 }
 
 QuestionTypeChanger.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 };
 
 export default QuestionTypeChanger;

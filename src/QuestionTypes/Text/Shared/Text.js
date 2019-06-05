@@ -12,7 +12,16 @@ import QuestionChanger from "./QuestionChanger";
 import CustomStyles from "./Styles";
 
 function Paragraph(props) {
-  const { core, wasFocused, remove, dupe, changeQuestionValue, changeType, width, label } = props;
+  const {
+    core,
+    wasFocused,
+    remove,
+    dupe,
+    changeQuestionValue,
+    changeType,
+    width,
+    label
+  } = props;
   const componentStyleOverrides = {
     ...CustomStyles,
     input: {
@@ -52,7 +61,9 @@ function Paragraph(props) {
           id="question"
           classes={{ root: classes.title }}
           label="Question"
-          onBlur={(event) => handleChangeValue(event.target.name, event.target.value)}
+          onBlur={event =>
+            handleChangeValue(event.target.name, event.target.value)
+          }
           required
           fullWidth
           autoFocus
@@ -62,7 +73,9 @@ function Paragraph(props) {
           defaultValue={core.description}
           id="description"
           label="Description (optional)"
-          onBlur={(event) => handleChangeValue(event.target.name, event.target.value)}
+          onBlur={event =>
+            handleChangeValue(event.target.name, event.target.value)
+          }
           margin="normal"
           fullWidth
         />
@@ -74,7 +87,14 @@ function Paragraph(props) {
             "aria-label": label
           }}
         />
-        <Footer remove={remove} dupe={dupe} id={core.id} required={core.required} sensitive={core.sensitive} change={handleChangeValue} />
+        <Footer
+          remove={remove}
+          dupe={dupe}
+          id={core.id}
+          required={core.required}
+          sensitive={core.sensitive}
+          change={handleChangeValue}
+        />
       </form>
     </Paper>
   );
@@ -88,7 +108,7 @@ Paragraph.propTypes = {
   changeQuestionValue: PropTypes.func.isRequired,
   core: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired
 };
 
 export default Paragraph;
