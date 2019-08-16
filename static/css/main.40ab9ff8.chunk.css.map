@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,UAEE,WACF,CAEA,KACE,QAAS,CACT,kBACF,CAEA,MACE,WACF","file":"main.40ab9ff8.chunk.css","sourcesContent":["html,\nbody {\n  height: 100%;\n}\n\nbody {\n  margin: 0;\n  background: #fff3e0;/* orange[50] in Material UI colors */\n}\n\n#root {\n  height: 100%;\n}\n"]}
